@@ -1,0 +1,68 @@
+[
+  {
+    "_id": "r1",
+    "_createdDate": "2025-01-10T10:00:00.000Z",
+    "_updatedDate": "2025-01-10T10:00:00.000Z",
+    "title": "Managing Exam Stress: A Student's Guide",
+    "description": "Learn practical techniques to manage exam anxiety, including breathing exercises, study planning, and healthy coping mechanisms that actually work.",
+    "resourceType": "Article",
+    "contentUrl": "#",
+    "thumbnailImage": "/images/fallback.png",
+    "language": "English"
+  },
+  {
+    "_id": "r2",
+    "_createdDate": "2025-01-15T10:00:00.000Z",
+    "_updatedDate": "2025-01-15T10:00:00.000Z",
+    "title": "5-Minute Mindfulness Meditation",
+    "description": "A quick guided meditation perfect for busy students. Practice between classes or before bed to reduce stress and improve focus.",
+    "resourceType": "Video",
+    "contentUrl": "#",
+    "thumbnailImage": "/images/fallback.png",
+    "language": "English"
+  },
+  {
+    "_id": "r3",
+    "_createdDate": "2025-01-20T10:00:00.000Z",
+    "_updatedDate": "2025-01-20T10:00:00.000Z",
+    "title": "Building Healthy Sleep Habits",
+    "description": "Sleep is crucial for mental health and academic performance. This guide covers sleep hygiene tips specifically designed for the college lifestyle.",
+    "resourceType": "Article",
+    "contentUrl": "#",
+    "thumbnailImage": "/images/fallback.png",
+    "language": "English"
+  },
+  {
+    "_id": "r4",
+    "_createdDate": "2025-02-01T10:00:00.000Z",
+    "_updatedDate": "2025-02-01T10:00:00.000Z",
+    "title": "Dealing with Peer Pressure",
+    "description": "Understanding and navigating peer pressure in college. Learn to set boundaries while maintaining friendships and social connections.",
+    "resourceType": "Article",
+    "contentUrl": "#",
+    "thumbnailImage": "/images/fallback.png",
+    "language": "English"
+  },
+  {
+    "_id": "r5",
+    "_createdDate": "2025-02-10T10:00:00.000Z",
+    "_updatedDate": "2025-02-10T10:00:00.000Z",
+    "title": "Self-Care Toolkit for Students",
+    "description": "A comprehensive toolkit with daily self-care activities, journaling prompts, and wellness trackers to help you prioritize your mental health.",
+    "resourceType": "Toolkit",
+    "contentUrl": "#",
+    "thumbnailImage": "/images/fallback.png",
+    "language": "English"
+  },
+  {
+    "_id": "r6",
+    "_createdDate": "2025-02-15T10:00:00.000Z",
+    "_updatedDate": "2025-02-15T10:00:00.000Z",
+    "title": "When to Seek Professional Help",
+    "description": "Knowing when it's time to reach out for professional support. This guide helps you recognize the signs and take the first step towards getting help.",
+    "resourceType": "Guide",
+    "contentUrl": "#",
+    "thumbnailImage": "/images/fallback.png",
+    "language": "English"
+  }
+]

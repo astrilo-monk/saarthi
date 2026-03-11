@@ -1,0 +1,52 @@
+[
+  {
+    "_id": "fc1",
+    "_createdDate": "2025-01-05T10:00:00.000Z",
+    "_updatedDate": "2025-01-05T10:00:00.000Z",
+    "categoryName": "Academic Stress",
+    "description": "Discuss exam anxiety, study pressure, academic expectations, and finding balance between studies and personal life.",
+    "isActive": true,
+    "displayOrder": 1,
+    "slug": "academic-stress"
+  },
+  {
+    "_id": "fc2",
+    "_createdDate": "2025-01-05T10:00:00.000Z",
+    "_updatedDate": "2025-01-05T10:00:00.000Z",
+    "categoryName": "Relationships & Social Life",
+    "description": "Share experiences about friendships, romantic relationships, family dynamics, and building a social support network on campus.",
+    "isActive": true,
+    "displayOrder": 2,
+    "slug": "relationships"
+  },
+  {
+    "_id": "fc3",
+    "_createdDate": "2025-01-05T10:00:00.000Z",
+    "_updatedDate": "2025-01-05T10:00:00.000Z",
+    "categoryName": "Mental Health Awareness",
+    "description": "Open conversations about mental health topics, breaking stigma, sharing personal stories, and supporting each other.",
+    "isActive": true,
+    "displayOrder": 3,
+    "slug": "mental-health"
+  },
+  {
+    "_id": "fc4",
+    "_createdDate": "2025-01-05T10:00:00.000Z",
+    "_updatedDate": "2025-01-05T10:00:00.000Z",
+    "categoryName": "Self-Care & Wellness",
+    "description": "Tips and discussions about self-care routines, exercise, nutrition, sleep, and overall wellness for a healthy college experience.",
+    "isActive": true,
+    "displayOrder": 4,
+    "slug": "self-care"
+  },
+  {
+    "_id": "fc5",
+    "_createdDate": "2025-01-05T10:00:00.000Z",
+    "_updatedDate": "2025-01-05T10:00:00.000Z",
+    "categoryName": "Career & Future Anxiety",
+    "description": "Discuss worries about placements, career choices, future uncertainty, and finding your path after college.",
+    "isActive": true,
+    "displayOrder": 5,
+    "slug": "career-anxiety"
+  }
+]
