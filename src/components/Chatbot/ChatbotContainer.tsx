@@ -358,8 +358,8 @@ export function ChatbotContainer({
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
-      className="chatbot-container flex flex-col rounded-2xl overflow-hidden shadow-2xl"
-      style={{ backgroundColor: theme.backgroundColor, height: 'calc(100vh - 2rem)' }}
+      className="chatbot-container flex flex-col rounded-2xl overflow-hidden shadow-2xl h-full"
+      style={{ backgroundColor: theme.backgroundColor }}
     >
       {/* Header */}
       <motion.div
