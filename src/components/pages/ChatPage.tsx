@@ -95,7 +95,6 @@ export default function ChatPage() {
         }
       } catch {
         setBackendStatus('error');
-        console.log('Emotion detection backend not available. Camera will work without emotion detection.');
       }
     };
     checkBackend();
@@ -103,20 +102,13 @@ export default function ChatPage() {
 
   // Capture frame from video and send to API
   const captureAndAnalyzeFrame = useCallback(async () => {
-    if (!videoRef.current || !canvasRef.current || !streamRef.current) {
-      console.log('Missing refs:', { video: !!videoRef.current, canvas: !!canvasRef.current, stream: !!streamRef.current });
-      return;
-    }
+    if (!videoRef.current || !canvasRef.current || !streamRef.current) return;
 
     const video = videoRef.current;
     const canvas = canvasRef.current;
     const context = canvas.getContext('2d');
 
-    // Check if video is ready and playing
-    if (!context || video.videoWidth === 0 || video.videoHeight === 0 || video.paused || video.ended) {
-      console.log('Video not ready:', { width: video.videoWidth, height: video.videoHeight, paused: video.paused });
-      return;
-    }
+    if (!context || video.videoWidth === 0 || video.videoHeight === 0 || video.paused || video.ended) return;
 
     // Set canvas size to match video
     canvas.width = video.videoWidth;
@@ -140,7 +132,6 @@ export default function ChatPage() {
 
       if (response.ok) {
         const result = await response.json();
-        console.log('Emotion result:', result);
         if (result.success && result.face_detected && result.emotion) {
           setDetectedEmotion(result.emotion);
           setEmotionConfidence(result.confidence);
@@ -158,22 +149,16 @@ export default function ChatPage() {
 
   // Start real emotion detection
   const startEmotionDetection = useCallback(() => {
-    console.log('startEmotionDetection called, backendStatus:', backendStatus);
-
     if (emotionIntervalRef.current) {
       clearInterval(emotionIntervalRef.current);
     }
 
-    // Analyze every 2 seconds
     emotionIntervalRef.current = setInterval(() => {
-      console.log('Interval tick, stream exists:', !!streamRef.current, 'backendStatus:', backendStatus);
       if (streamRef.current) {
         captureAndAnalyzeFrame();
       }
     }, 2000);
 
-    // Run immediately
-    console.log('Running initial analysis');
     captureAndAnalyzeFrame();
   }, [captureAndAnalyzeFrame, backendStatus]);
 
@@ -227,26 +212,14 @@ export default function ChatPage() {
       video.srcObject = streamRef.current;
 
       const startDetection = () => {
-        console.log('Video ready, starting emotion detection');
-        // Start emotion detection after video is confirmed ready
-        setTimeout(() => {
-          console.log('Calling startEmotionDetection, backendStatus:', backendStatus);
-          startEmotionDetection();
-        }, 1000);
+        setTimeout(() => startEmotionDetection(), 1000);
       };
 
-      // Check if video is already ready
       if (video.readyState >= 3) {
-        // Video is already ready (HAVE_FUTURE_DATA or HAVE_ENOUGH_DATA)
-        video.play().then(startDetection).catch(err => {
-          console.error('Error playing video:', err);
-        });
+        video.play().then(startDetection).catch(() => {});
       } else {
-        // Wait for video to be ready
         const handleCanPlay = () => {
-          video.play().then(startDetection).catch(err => {
-            console.error('Error playing video:', err);
-          });
+          video.play().then(startDetection).catch(() => {});
         };
 
         video.addEventListener('canplay', handleCanPlay, { once: true });
