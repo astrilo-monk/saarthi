@@ -48,11 +48,12 @@ export function InputBox({
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-    // Submit on Shift+Enter
-    if (e.key === "Enter" && e.shiftKey) {
+    // Submit on Enter (not Shift+Enter)
+    if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
       handleSubmit(e as any);
     }
+    // Allow Shift+Enter for new line
   };
 
   // Auto-resize textarea
@@ -120,7 +121,7 @@ export function InputBox({
         {/* Character Count & Hint */}
         <div className="flex justify-between items-center px-3 text-xs text-gray-500">
           <span>
-            Shift+Enter to send • {charCount}/{maxChars}
+            Press Enter to send • Shift+Enter for new line • {charCount}/{maxChars}
           </span>
           {isLoading && (
             <motion.span
