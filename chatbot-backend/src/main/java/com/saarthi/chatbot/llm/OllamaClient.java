@@ -189,6 +189,7 @@ public class OllamaClient {
         body.put("top_p", topP);
         body.put("top_k", topK);
         body.put("stream", false);  // We handle streaming manually if needed
+        body.put("num_predict", 512);  // Allow longer responses (up to 512 tokens)
 
         // Build the prompt with system message and user message
         String prompt = systemPrompt + "\n\nUser: " + userMessage + "\n\nAssistant:";
@@ -221,10 +222,10 @@ public class OllamaClient {
             return response.replaceAll("(?i)i'?m a therapist", "I'm here to listen and support");
         }
 
-        // Trim response if it's too long (shouldn't happen but safety check)
-        if (response.length() > 500) {
+        // Trim response if it's too long (safety check for excessively long responses)
+        if (response.length() > 2000) {
             log.warn("Response was too long ({}), trimming", response.length());
-            response = response.substring(0, 497) + "...";
+            response = response.substring(0, 1997) + "...";
         }
 
         return response.trim();
