@@ -19,7 +19,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Camera, CameraOff, Mic, MicOff, X } from "lucide-react";
 import useChatbot from "@/hooks/useChatbot";
 import { useEmotionTheme } from "@/hooks/useEmotionTheme";
-import Avatar from "./Avatar";
 import MessageBubble from "./MessageBubble";
 import InputBox from "./InputBox";
 
@@ -358,16 +357,11 @@ export function ChatbotContainer({
       className="chatbot-container flex flex-col h-screen rounded-2xl overflow-hidden shadow-2xl"
       style={{ backgroundColor: theme.backgroundColor }}
     >
-      {/* Header with Avatar */}
+      {/* Header */}
       <motion.div
         className="chatbot-header p-4 flex flex-col items-center gap-2 border-b"
         style={{ borderColor: theme.accentColor + "40" }}
       >
-        <Avatar
-          expression={messages.length === 0 ? "🙂" : messages[messages.length - 1].avatar.expression}
-          animation={messages.length === 0 ? "steady" : messages[messages.length - 1].avatar.animation}
-          emotion={currentEmotion}
-        />
         <h1 className="text-xl font-semibold" style={{ color: theme.textColor }}>
           Saarthi
         </h1>
