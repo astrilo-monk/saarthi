@@ -8,6 +8,7 @@
 
 import React, { useState, useRef, useEffect } from "react";
 import { motion } from "framer-motion";
+import { Camera, CameraOff, Mic, MicOff } from "lucide-react";
 
 interface InputBoxProps {
   onSubmit: (message: string) => void;
@@ -15,6 +16,10 @@ interface InputBoxProps {
   disabled?: boolean;
   accentColor?: string;
   placeholderText?: string;
+  onCameraToggle?: () => void;
+  onMicToggle?: () => void;
+  isCameraOn?: boolean;
+  isMicOn?: boolean;
 }
 
 export function InputBox({
@@ -23,6 +28,10 @@ export function InputBox({
   disabled = false,
   accentColor = "#5b9aa0",
   placeholderText = "Share what's on your mind...",
+  onCameraToggle,
+  onMicToggle,
+  isCameraOn = false,
+  isMicOn = false,
 }: InputBoxProps) {
   const [message, setMessage] = useState("");
   const [charCount, setCharCount] = useState(0);
@@ -70,68 +79,78 @@ export function InputBox({
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
-      className="input-box w-full"
+      className="input-box w-full flex flex-col gap-3"
     >
-      <div className="flex flex-col gap-2">
-        {/* Input Container */}
-        <div
-          className="flex items-end gap-2 p-3 rounded-lg border-2 transition-colors"
-          style={{
-            borderColor: isLoading ? accentColor : "#e0e0e0",
-            backgroundColor: "#f9f9f9",
-          }}
-        >
-          {/* Textarea */}
-          <textarea
-            ref={inputRef}
-            value={message}
-            onChange={handleChange}
-            onKeyDown={handleKeyDown}
-            placeholder={placeholderText}
-            disabled={isLoading || disabled}
-            maxLength={maxChars}
-            rows={1}
-            className="flex-1 bg-transparent outline-none text-gray-700 placeholder-gray-400 resize-none text-sm"
-            style={{ minHeight: "40px", maxHeight: "120px" }}
-          />
-
-          {/* Submit Button */}
+      {/* Input Container - Claude style clean UI */}
+      <div className="flex items-end gap-3 rounded-2xl border border-gray-200 p-4 bg-white shadow-sm hover:shadow-md transition-shadow">
+        {/* Left: Camera & Mic Buttons */}
+        <div className="flex gap-2">
           <motion.button
-            type="submit"
-            disabled={isLoading || disabled || !message.trim()}
+            type="button"
+            onClick={onCameraToggle}
             whileHover={{ scale: 1.05 }}
             whileActive={{ scale: 0.95 }}
-            className="flex-shrink-0 p-2 rounded-lg text-white transition-opacity disabled:opacity-50"
-            style={{ backgroundColor: accentColor }}
-            aria-label="Send message"
+            className="p-2 rounded-lg transition-colors"
+            style={{
+              backgroundColor: isCameraOn ? accentColor : "#f0f0f0",
+              color: isCameraOn ? "white" : "#666",
+            }}
+            title="Toggle camera"
           >
-            {isLoading ? (
-              <motion.div
-                animate={{ rotate: 360 }}
-                transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-              >
-                ⟳
-              </motion.div>
-            ) : (
-              "→"
-            )}
+            {isCameraOn ? <Camera className="w-5 h-5" /> : <CameraOff className="w-5 h-5" />}
+          </motion.button>
+
+          <motion.button
+            type="button"
+            onClick={onMicToggle}
+            whileHover={{ scale: 1.05 }}
+            whileActive={{ scale: 0.95 }}
+            className="p-2 rounded-lg transition-colors"
+            style={{
+              backgroundColor: isMicOn ? accentColor : "#f0f0f0",
+              color: isMicOn ? "white" : "#666",
+            }}
+            title="Toggle microphone"
+          >
+            {isMicOn ? <Mic className="w-5 h-5" /> : <MicOff className="w-5 h-5" />}
           </motion.button>
         </div>
 
-        {/* Character Count & Hint */}
-        <div className="flex justify-between items-center px-3 text-xs text-gray-500">
-          <span>
-            Press Enter to send • Shift+Enter for new line • {charCount}/{maxChars}
-          </span>
-          {isLoading && (
-            <motion.span
-              animate={{ opacity: [0.5, 1] }}
-              transition={{ duration: 1, repeat: Infinity }}
+        {/* Center: Textarea */}
+        <textarea
+          ref={inputRef}
+          value={message}
+          onChange={handleChange}
+          onKeyDown={handleKeyDown}
+          placeholder={placeholderText}
+          disabled={isLoading || disabled}
+          maxLength={maxChars}
+          rows={1}
+          className="flex-1 bg-transparent outline-none text-gray-800 placeholder-gray-400 resize-none text-sm"
+          style={{ minHeight: "40px", maxHeight: "120px" }}
+        />
+
+        {/* Right: Send Button */}
+        <motion.button
+          type="submit"
+          disabled={isLoading || disabled || !message.trim()}
+          whileHover={{ scale: 1.05 }}
+          whileActive={{ scale: 0.95 }}
+          className="flex-shrink-0 p-2 rounded-lg text-white transition-opacity disabled:opacity-50"
+          style={{ backgroundColor: accentColor }}
+          aria-label="Send message"
+        >
+          {isLoading ? (
+            <motion.div
+              animate={{ rotate: 360 }}
+              transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
             >
-              Processing...
-            </motion.span>
+              ⟳
+            </motion.div>
+          ) : (
+            "→"
           )}
-        </div>
+        </motion.button>
       </div>
     </motion.form>
   );

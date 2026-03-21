@@ -1,0 +1,46 @@
+[
+  {
+    "_id": "t1",
+    "_createdDate": "2025-02-01T10:00:00.000Z",
+    "_updatedDate": "2025-02-01T10:00:00.000Z",
+    "studentName": "Arjun K.",
+    "quote": "Saarthi helped me manage my exam anxiety. The counselors are incredibly supportive and understanding. I went from barely sleeping before exams to feeling confident and prepared.",
+    "studentPhoto": "/images/fallback.png",
+    "dateSubmitted": "2025-02-01T10:00:00.000Z",
+    "programOfStudy": "B.Tech Computer Science",
+    "isApproved": true
+  },
+  {
+    "_id": "t2",
+    "_createdDate": "2025-02-10T10:00:00.000Z",
+    "_updatedDate": "2025-02-10T10:00:00.000Z",
+    "studentName": "Sneha M.",
+    "quote": "I was struggling with homesickness and feeling isolated on campus. Through the forum and counseling sessions, I found a community that truly cares. Thank you Saarthi!",
+    "studentPhoto": "/images/fallback.png",
+    "dateSubmitted": "2025-02-10T10:00:00.000Z",
+    "programOfStudy": "B.A. Psychology",
+    "isApproved": true
+  },
+  {
+    "_id": "t3",
+    "_createdDate": "2025-02-15T10:00:00.000Z",
+    "_updatedDate": "2025-02-15T10:00:00.000Z",
+    "studentName": "Rohan P.",
+    "quote": "The mindfulness resources and plant game kept me engaged with my mental health journey. It made self-care feel fun rather than like a chore. Highly recommend to all students!",
+    "studentPhoto": "/images/fallback.png",
+    "dateSubmitted": "2025-02-15T10:00:00.000Z",
+    "programOfStudy": "M.Sc. Data Science",
+    "isApproved": true
+  },
+  {
+    "_id": "t4",
+    "_createdDate": "2025-03-01T10:00:00.000Z",
+    "_updatedDate": "2025-03-01T10:00:00.000Z",
+    "studentName": "Meera S.",
+    "quote": "As someone who was hesitant about seeking help, Saarthi's anonymous chat feature was a game-changer. It gave me the courage to eventually book a full counseling session.",
+    "studentPhoto": "/images/fallback.png",
+    "dateSubmitted": "2025-03-01T10:00:00.000Z",
+    "programOfStudy": "B.Com Honours",
+    "isApproved": true
+  }
+]

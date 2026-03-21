@@ -362,122 +362,38 @@ export function ChatbotContainer({
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
-      className="chatbot-container flex flex-col h-full rounded-lg overflow-hidden shadow-lg"
-      style={{ backgroundColor: theme.backgroundColor }}
+      className="chatbot-container flex flex-col h-full rounded-2xl overflow-hidden shadow-2xl"
+      style={{ backgroundColor: "#f0fdf4" }}
     >
       {/* Header with Avatar */}
       <motion.div
-        className="chatbot-header p-6 flex flex-col items-center gap-4 border-b-2"
-        style={{ borderColor: theme.accentColor + "40" }}
+        className="chatbot-header p-6 flex flex-col items-center gap-3 border-b border-gray-200"
       >
         <Avatar
           expression={messages.length === 0 ? "🙂" : messages[messages.length - 1].avatar.expression}
           animation={messages.length === 0 ? "steady" : messages[messages.length - 1].avatar.animation}
           emotion={currentEmotion}
         />
-        <h1 className="text-2xl font-bold" style={{ color: theme.textColor }}>
-          Saarthi Mental Health Support
+        <h1 className="text-2xl font-bold text-gray-800">
+          Saarthi
         </h1>
-        <p className="text-sm" style={{ color: theme.textColor + "99" }}>
+        <p className="text-sm text-gray-600">
           {isCrisis
             ? "🚨 Crisis support available - please reach out"
-            : "I'm here to listen and support you"}
+            : "Your mental health companion"}
         </p>
       </motion.div>
 
-      {/* Camera Preview Panel */}
-      <AnimatePresence>
-        {isCameraOn && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            className="px-6 py-4 border-b-2"
-            style={{ borderColor: theme.accentColor + "40" }}
-          >
-            <div className="flex items-start gap-4">
-              {/* Video Preview */}
-              <div className="relative">
-                <video
-                  ref={videoRef}
-                  autoPlay
-                  muted
-                  playsInline
-                  className="w-40 h-32 object-cover rounded-lg"
-                />
-                <canvas ref={canvasRef} className="hidden" />
-                <button
-                  onClick={toggleCamera}
-                  className="absolute top-2 right-2 bg-red-500 text-white p-1 rounded-full hover:bg-red-600 transition-colors"
-                >
-                  <X className="w-3 h-3" />
-                </button>
-                {isAnalyzing && (
-                  <div className="absolute bottom-2 left-2 bg-black/50 text-white text-xs px-2 py-1 rounded">
-                    Analyzing...
-                  </div>
-                )}
-              </div>
-
-              {/* Emotion Detection Display */}
-              <div className="flex-1">
-                <div className="flex items-center justify-between mb-2">
-                  <h3 className="font-bold" style={{ color: theme.textColor }}>
-                    📊 Emotion Detection
-                  </h3>
-                  <span
-                    className="text-xs px-2 py-1 rounded-full text-white"
-                    style={{
-                      backgroundColor:
-                        backendStatus === "connected"
-                          ? "#10b981"
-                          : backendStatus === "error"
-                          ? "#ef4444"
-                          : "#8b5cf6",
-                    }}
-                  >
-                    {backendStatus === "connected"
-                      ? "Connected"
-                      : backendStatus === "error"
-                      ? "Offline"
-                      : "Connecting..."}
-                  </span>
-                </div>
-                <p className="text-sm mb-2" style={{ color: theme.textColor + "99" }}>
-                  {backendStatus === "connected"
-                    ? "AI is analyzing your facial expressions"
-                    : "Start Python backend on port 8000"}
-                </p>
-                {detectedEmotion && (
-                  <motion.div
-                    initial={{ scale: 0.9, opacity: 0 }}
-                    animate={{ scale: 1, opacity: 1 }}
-                    className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-white"
-                    style={{ backgroundColor: theme.accentColor }}
-                  >
-                    <span className="text-lg">
-                      {detectedEmotion === "happy" && "😊"}
-                      {detectedEmotion === "sad" && "😢"}
-                      {detectedEmotion === "angry" && "😠"}
-                      {detectedEmotion === "fear" && "😨"}
-                      {detectedEmotion === "surprise" && "😲"}
-                      {detectedEmotion === "disgust" && "🤢"}
-                      {detectedEmotion === "neutral" && "😐"}
-                    </span>
-                    <span className="capitalize">{detectedEmotion}</span>
-                    {emotionConfidence && <span className="text-xs ml-1">({Math.round(emotionConfidence)}%)</span>}
-                  </motion.div>
-                )}
-              </div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {/* Camera Preview Panel - Hidden for clean UI */}
+      <div className="hidden">
+        <video ref={videoRef} autoPlay muted playsInline />
+        <canvas ref={canvasRef} />
+      </div>
 
       {/* Messages Container */}
       <motion.div
         ref={messagesContainerRef}
-        className="chatbot-messages flex-1 overflow-y-auto p-6 space-y-4"
+        className="chatbot-messages flex-1 overflow-y-auto p-6 space-y-4 bg-gradient-to-b from-green-50 to-white"
         layout
       >
         {messages.length === 0 && !isLoading && (
@@ -487,10 +403,10 @@ export function ChatbotContainer({
             className="flex items-center justify-center h-full text-center"
           >
             <div>
-              <p className="text-lg font-semibold mb-2" style={{ color: theme.textColor }}>
+              <p className="text-2xl font-semibold mb-3 text-gray-800">
                 Welcome to Saarthi
               </p>
-              <p style={{ color: theme.textColor + "99" }}>
+              <p className="text-gray-600">
                 Share what's on your mind. I'm here to listen and support you with care and understanding.
               </p>
             </div>
@@ -582,7 +498,7 @@ export function ChatbotContainer({
       </motion.div>
 
       {/* Footer - Input Box with Camera/Mic */}
-      <motion.div className="chatbot-footer p-6 border-t-2" style={{ borderColor: theme.accentColor + "40" }}>
+      <motion.div className="chatbot-footer p-6 border-t border-gray-200 bg-white">
         {/* Listening indicator */}
         <AnimatePresence>
           {isListening && transcript && (
@@ -590,10 +506,9 @@ export function ChatbotContainer({
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 10 }}
-              className="mb-3 p-2 rounded text-sm"
-              style={{ backgroundColor: theme.accentColor + "20", color: theme.textColor }}
+              className="mb-3 p-2 rounded text-sm bg-blue-50 text-blue-700"
             >
-              <span style={{ color: theme.accentColor }} className="font-medium">
+              <span className="font-medium">
                 Listening:
               </span>{" "}
               {transcript}
@@ -601,58 +516,16 @@ export function ChatbotContainer({
           )}
         </AnimatePresence>
 
-        {/* Controls */}
-        <div className="flex gap-2 mb-3">
-          {/* Camera Toggle Button */}
-          <button
-            onClick={toggleCamera}
-            className="p-3 rounded-lg transition-colors flex items-center gap-2"
-            style={{
-              backgroundColor: isCameraOn ? theme.accentColor : "#e0e0e0",
-              color: isCameraOn ? "white" : "#666",
-            }}
-            title={isCameraOn ? "Turn off camera" : "Turn on camera for emotion detection"}
-          >
-            {isCameraOn ? <Camera className="w-4 h-4" /> : <CameraOff className="w-4 h-4" />}
-            <span className="text-xs font-medium">{isCameraOn ? "Camera ON" : "Camera"}</span>
-          </button>
-
-          {/* Mic Toggle Button */}
-          <button
-            onClick={toggleMic}
-            className="p-3 rounded-lg transition-colors flex items-center gap-2"
-            style={{
-              backgroundColor: isMicOn ? theme.accentColor : "#e0e0e0",
-              color: isMicOn ? "white" : "#666",
-            }}
-            title={isMicOn ? "Turn off microphone" : "Turn on microphone for speech-to-text"}
-          >
-            {isMicOn ? <Mic className="w-4 h-4" /> : <MicOff className="w-4 h-4" />}
-            <span className="text-xs font-medium">{isMicOn ? "Mic ON" : "Mic"}</span>
-          </button>
-
-          {/* Status indicators */}
-          <div className="flex-1" />
-          {isCameraOn && (
-            <div className="flex items-center gap-1 text-xs px-2 py-2" style={{ color: "#10b981" }}>
-              <span className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse"></span>
-              <span>Camera active</span>
-            </div>
-          )}
-          {isMicOn && (
-            <div className="flex items-center gap-1 text-xs px-2 py-2" style={{ color: "#ef4444" }}>
-              <span className="w-1.5 h-1.5 bg-red-500 rounded-full animate-pulse"></span>
-              <span>Listening...</span>
-            </div>
-          )}
-        </div>
-
         {/* Input Box */}
         <InputBox
           onSubmit={handleSendMessage}
           isLoading={isLoading}
-          accentColor={theme.accentColor}
+          accentColor="#4ade80"
           placeholderText={isMicOn ? "Speak or type..." : "Share your thoughts..."}
+          onCameraToggle={toggleCamera}
+          onMicToggle={toggleMic}
+          isCameraOn={isCameraOn}
+          isMicOn={isMicOn}
         />
       </motion.div>
     </motion.div>

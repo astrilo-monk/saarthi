@@ -1,0 +1,50 @@
+[
+  {
+    "_id": "c1",
+    "_createdDate": "2025-01-15T10:00:00.000Z",
+    "_updatedDate": "2025-01-15T10:00:00.000Z",
+    "counselorName": "Dr. Priya Sharma",
+    "specialty": "Anxiety & Stress Management",
+    "bio": "Dr. Priya Sharma is a licensed clinical psychologist with over 10 years of experience in helping college students navigate academic stress, anxiety, and adjustment challenges. She uses evidence-based approaches including CBT and mindfulness techniques.",
+    "profilePicture": "/images/fallback.png",
+    "isOnlineAvailable": true,
+    "isInPersonAvailable": true,
+    "languagesSpoken": "English, Hindi"
+  },
+  {
+    "_id": "c2",
+    "_createdDate": "2025-01-16T10:00:00.000Z",
+    "_updatedDate": "2025-01-16T10:00:00.000Z",
+    "counselorName": "Dr. Rahul Mehta",
+    "specialty": "Depression & Mood Disorders",
+    "bio": "Dr. Rahul Mehta specializes in treating depression, mood disorders, and emotional well-being in young adults. With a compassionate approach, he creates a safe space for students to explore their feelings and develop coping strategies.",
+    "profilePicture": "/images/fallback.png",
+    "isOnlineAvailable": true,
+    "isInPersonAvailable": false,
+    "languagesSpoken": "English, Hindi, Marathi"
+  },
+  {
+    "_id": "c3",
+    "_createdDate": "2025-01-17T10:00:00.000Z",
+    "_updatedDate": "2025-01-17T10:00:00.000Z",
+    "counselorName": "Ms. Ananya Gupta",
+    "specialty": "Relationship & Social Skills",
+    "bio": "Ms. Ananya Gupta is a certified counselor focusing on interpersonal relationships, social anxiety, and communication skills. She helps students build healthy relationships and improve their social confidence through practical exercises.",
+    "profilePicture": "/images/fallback.png",
+    "isOnlineAvailable": true,
+    "isInPersonAvailable": true,
+    "languagesSpoken": "English, Hindi, Bengali"
+  },
+  {
+    "_id": "c4",
+    "_createdDate": "2025-01-18T10:00:00.000Z",
+    "_updatedDate": "2025-01-18T10:00:00.000Z",
+    "counselorName": "Dr. Kavita Reddy",
+    "specialty": "Academic Performance & Motivation",
+    "bio": "Dr. Kavita Reddy helps students overcome procrastination, perfectionism, and academic burnout. Her approach combines cognitive behavioral techniques with motivational interviewing to help students reach their full potential.",
+    "profilePicture": "/images/fallback.png",
+    "isOnlineAvailable": false,
+    "isInPersonAvailable": true,
+    "languagesSpoken": "English, Hindi, Telugu"
+  }
+]
