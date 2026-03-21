@@ -11,6 +11,7 @@ com\saarthi\chatbot\service\ResponseStrategyService.class
 com\saarthi\chatbot\model\ChatRequest$ChatRequestBuilder.class
 com\saarthi\chatbot\safety\EmotionDetectorService.class
 com\saarthi\chatbot\model\EmotionThemeConfig.class
+com\saarthi\chatbot\llm\OllamaClient.class
 com\saarthi\chatbot\model\ChatResponse$ChatResponseBuilder.class
 com\saarthi\chatbot\controller\ChatController.class
 com\saarthi\chatbot\model\EmotionalState.class
