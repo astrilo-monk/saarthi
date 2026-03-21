@@ -5,6 +5,7 @@ A web-based mental health support platform designed specifically for college stu
 ## Table of Contents
 
 - [Features](#features)
+- [Recent Updates](#recent-updates)
 - [Tech Stack](#tech-stack)
 - [Getting Started](#getting-started)
 - [Project Structure](#project-structure)
@@ -48,6 +49,70 @@ A web-based mental health support platform designed specifically for college stu
 - View account information, privacy settings, and activity summary.
 - Anonymous mode and data encryption indicators.
 
+## Recent Updates
+
+### Chatbot Infrastructure Overhaul (March 2026)
+
+**Migration to Local LLM**
+- Replaced cloud-based OpenAI API with locally-hosted Ollama for cost-free, privacy-first AI inference
+- Currently running Phi model (1.6GB, fast inference on consumer hardware)
+- Supports multiple models: Mistral, Llama2, Neural-Chat with simple configuration swap
+- No API keys required, complete data privacy with local processing
+
+**Java Spring Boot Backend**
+- Complete backend rewrite from Node.js to Java 17 + Spring Boot 3.2
+- RESTful API architecture with proper MVC pattern separation
+- Robust error handling, retry logic, and fallback responses
+- Health check endpoints and comprehensive logging
+- Configurable via `application.properties` for easy deployment customization
+
+**Enhanced Chatbot Features**
+- **Emotion-aware theming**: Background colors and UI elements dynamically adapt based on detected emotional state (neutral, anxious, critical, etc.)
+- **Real-time crisis detection**: Advanced pattern matching for self-harm indicators with immediate helpline surfacing (AASRA, iCall, Vandrevala Foundation)
+- **Camera integration**: Optional facial emotion detection using DeepFace API (Python backend on port 8000)
+- **Microphone support**: WebAPI-based speech-to-text for hands-free interaction
+- **Conversation memory**: Session-based chat history with configurable limits
+- **Response validation**: Safety checks to prevent medical advice and ensure appropriate boundaries
+
+**UI/UX Redesign**
+- Claude-inspired minimal, clean interface with light green calming theme
+- Message bubbles with timestamps and emotion labels
+- Auto-scrolling chat container (page stays fixed)
+- Immediate user message display with loading indicators
+- Camera/mic controls on left, send button on right (intuitive layout)
+- Fully responsive design with smooth animations via Framer Motion
+
+**Configuration & Deployment**
+- Easily adjustable response length (currently 2000 characters, 512 tokens)
+- Configurable temperature, top-p, top-k for LLM behavior tuning
+- Simple model switching via single property change
+- Maven-based build system for reliable Java compilation
+- Ready for production deployment with environment-based configs
+
+**Technical Improvements**
+- Comprehensive input validation and sanitization
+- Exponential backoff retry mechanism for API resilience
+- Session timeout management (30 minutes default)
+- Maximum conversation history limit (10 messages default)
+- Proper CORS configuration for frontend-backend communication
+- Structured logging with debug levels for troubleshooting
+
+### What Changed Technically
+
+| Component | Before | After |
+|-----------|--------|-------|
+| **LLM Provider** | OpenAI GPT-3.5 (cloud API) | Ollama Phi/Mistral (local) |
+| **Backend Language** | Node.js/Express | Java 17 + Spring Boot 3.2 |
+| **Response Limit** | 150 tokens (~500 chars) | 512 tokens (~2000 chars) |
+| **Crisis Detection** | Basic keyword matching | Multi-pattern regex with severity levels |
+| **Emotion Detection** | None | DeepFace API integration (optional) |
+| **UI Design** | Standard chat boxes | Minimal Claude-style interface |
+| **Theming** | Static colors | Dynamic emotion-aware theming |
+| **Input Methods** | Text only | Text + Voice + Camera |
+| **API Cost** | ~$0.002 per message | $0 (fully local) |
+
+
+
 ## Tech Stack
 
 | Layer | Technology |
@@ -63,8 +128,12 @@ A web-based mental health support platform designed specifically for college stu
 | Charts | [Recharts](https://recharts.org/) |
 | Maps | [React Leaflet](https://react-leaflet.js.org/) |
 | Icons | [Lucide React](https://lucide.dev/) |
-| Build Tool | [Vite 6](https://vite.dev/) |
-| Deployment | [Vercel](https://vercel.com/) (or any Node.js host) |
+| **Backend API** | [Java 17](https://www.oracle.com/java/) + [Spring Boot 3.2](https://spring.io/projects/spring-boot) |
+| **LLM Runtime** | [Ollama](https://ollama.ai/) (local inference) |
+| **Emotion Detection** | [FastAPI](https://fastapi.tiangolo.com/) + [DeepFace](https://github.com/serengil/deepface) (optional) |
+| Build Tool (Frontend) | [Vite 6](https://vite.dev/) |
+| Build Tool (Backend) | [Maven 3](https://maven.apache.org/) |
+| Deployment | [Vercel](https://vercel.com/) (frontend) + Any Java host (backend) |
 
 ## Getting Started
 
@@ -72,26 +141,69 @@ A web-based mental health support platform designed specifically for college stu
 
 - [Node.js](https://nodejs.org/) v18 or later
 - npm
+- [Java 17](https://www.oracle.com/java/technologies/downloads/) or later
+- [Maven 3](https://maven.apache.org/download.cgi)
+- [Ollama](https://ollama.ai/) (for AI chatbot)
 
 ### Installation
 
+**Frontend:**
 ```bash
 git clone <https://github.com/astrilo-monk/saarthi>
 cd campus-calm-main
 npm install
 ```
 
+**Backend (Chatbot API):**
+```bash
+cd chatbot-backend
+mvn clean install
+```
+
+**Ollama Setup:**
+```bash
+# Install Ollama from https://ollama.ai
+# Pull a model (Phi recommended for speed)
+ollama pull phi:latest
+
+# Or use Mistral for better quality
+ollama pull mistral:latest
+```
+
 ### Run Locally
 
+**Start Frontend:**
 ```bash
 npm run dev
+# Runs on http://localhost:4321
+```
+
+**Start Backend:**
+```bash
+cd chatbot-backend
+mvn spring-boot:run
+# Runs on http://localhost:8080
+```
+
+**Start Ollama:**
+```bash
+ollama serve
+# Runs on http://localhost:11434
 ```
 
 ### Production Build
 
+**Frontend:**
 ```bash
 npm run build
 npm run preview
+```
+
+**Backend:**
+```bash
+cd chatbot-backend
+mvn clean package
+java -jar target/chatbot-backend-1.0.0.jar
 ```
 
 ## Project Structure
@@ -183,11 +295,13 @@ The most ambitious planned upgrade transforms the Mindful Garden from a personal
 
 ## Limitations
 
-- The AI chat currently uses a template-based response engine. Integration with a production LLM (Gemini, GPT-4) would significantly improve response quality and contextual depth.
-- Emergency keyword detection relies on exact pattern matching; a fine-tuned classifier would be more robust.
-- Peer-to-peer matching uses a simple first-in, first-out queue rather than compatibility scoring.
+- The AI chatbot now runs locally via Ollama (Phi/Mistral models). While this eliminates API costs and enhances privacy, response quality depends on the chosen model and available compute resources.
+- Crisis detection has been upgraded from simple keyword matching to multi-pattern regex with severity levels, but a fine-tuned ML classifier would provide even more nuanced detection.
+- Emotion detection via camera is optional and requires a separate Python FastAPI backend running DeepFace. This dependency can be removed for simplified deployment.
+- Peer-to-peer matching still uses a simple first-in, first-out queue rather than compatibility scoring.
 - The platform uses static JSON data files and localStorage for persistence. A production deployment would require a proper database (e.g., MongoDB, PostgreSQL) and authentication backend.
 - A formal security audit and compliance verification against data protection regulations is required before any real-world institutional deployment.
+- The chatbot backend (Java Spring Boot) and frontend (Astro/React) run as separate services and must both be deployed for full functionality.
 
 ## License
 
