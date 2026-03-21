@@ -68,6 +68,7 @@ export function ChatbotContainer({
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const messagesContainerRef = useRef<HTMLDivElement>(null);
+  const [lastUserMessage, setLastUserMessage] = useState<string | null>(null);
 
   // Camera and Mic state
   const [isCameraOn, setIsCameraOn] = useState(false);
@@ -88,6 +89,12 @@ export function ChatbotContainer({
 
   // Backend API URL for emotion detection
   const EMOTION_API_URL = "http://localhost:8000";
+
+  // Wrap sendMessage to show user message immediately
+  const handleSendMessage = useCallback((message: string) => {
+    setLastUserMessage(message);
+    sendMessage(message);
+  }, [sendMessage]);
 
   // Check backend health on mount
   useEffect(() => {
@@ -275,7 +282,7 @@ export function ChatbotContainer({
           setTranscript("");
           // Auto-send final transcript
           if (finalTranscript.trim()) {
-            sendMessage(finalTranscript);
+            handleSendMessage(finalTranscript);
           }
         }
         setTranscript(interimTranscript);
@@ -335,12 +342,12 @@ export function ChatbotContainer({
     onEmotionChange?.(currentEmotion);
   }, [currentEmotion, onEmotionChange]);
 
-  // Notify parent when crisis detected
+  // Clear last user message when response arrives
   useEffect(() => {
-    if (isCrisis) {
-      onCrisisDetected?.();
+    if (!isLoading && lastUserMessage && messages.length > 0) {
+      setLastUserMessage(null);
     }
-  }, [isCrisis, onCrisisDetected]);
+  }, [isLoading, messages]);
 
   // Send initial message if provided
   useEffect(() => {
@@ -473,7 +480,7 @@ export function ChatbotContainer({
         className="chatbot-messages flex-1 overflow-y-auto p-6 space-y-4"
         layout
       >
-        {messages.length === 0 && (
+        {messages.length === 0 && !isLoading && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -515,30 +522,42 @@ export function ChatbotContainer({
         </AnimatePresence>
 
         {/* Loading State */}
-        {isLoading && (
+        {isLoading && lastUserMessage && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="flex gap-2 items-center"
+            className="flex flex-col gap-4"
           >
-            <motion.div
-              animate={{ y: [0, -5, 0] }}
-              transition={{ repeat: Infinity, duration: 0.6, delay: 0 }}
-              className="w-2 h-2 rounded-full"
-              style={{ backgroundColor: theme.accentColor }}
+            {/* Show pending user message */}
+            <MessageBubble
+              isUser={true}
+              message={lastUserMessage}
             />
+            {/* Loading dots */}
             <motion.div
-              animate={{ y: [0, -5, 0] }}
-              transition={{ repeat: Infinity, duration: 0.6, delay: 0.2 }}
-              className="w-2 h-2 rounded-full"
-              style={{ backgroundColor: theme.accentColor }}
-            />
-            <motion.div
-              animate={{ y: [0, -5, 0] }}
-              transition={{ repeat: Infinity, duration: 0.6, delay: 0.4 }}
-              className="w-2 h-2 rounded-full"
-              style={{ backgroundColor: theme.accentColor }}
-            />
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="flex gap-2 items-center"
+            >
+              <motion.div
+                animate={{ y: [0, -5, 0] }}
+                transition={{ repeat: Infinity, duration: 0.6, delay: 0 }}
+                className="w-2 h-2 rounded-full"
+                style={{ backgroundColor: theme.accentColor }}
+              />
+              <motion.div
+                animate={{ y: [0, -5, 0] }}
+                transition={{ repeat: Infinity, duration: 0.6, delay: 0.2 }}
+                className="w-2 h-2 rounded-full"
+                style={{ backgroundColor: theme.accentColor }}
+              />
+              <motion.div
+                animate={{ y: [0, -5, 0] }}
+                transition={{ repeat: Infinity, duration: 0.6, delay: 0.4 }}
+                className="w-2 h-2 rounded-full"
+                style={{ backgroundColor: theme.accentColor }}
+              />
+            </motion.div>
           </motion.div>
         )}
 
@@ -630,7 +649,7 @@ export function ChatbotContainer({
 
         {/* Input Box */}
         <InputBox
-          onSubmit={sendMessage}
+          onSubmit={handleSendMessage}
           isLoading={isLoading}
           accentColor={theme.accentColor}
           placeholderText={isMicOn ? "Speak or type..." : "Share your thoughts..."}

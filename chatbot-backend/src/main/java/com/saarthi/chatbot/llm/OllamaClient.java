@@ -72,6 +72,7 @@ public class OllamaClient {
 
             } catch (Exception e) {
                 log.warn("Ollama API call failed (attempt {}/{}): {}", attempt, MAX_RETRIES, e.getMessage());
+                log.debug("Full error stack:", e);
 
                 if (attempt < MAX_RETRIES) {
                     try {

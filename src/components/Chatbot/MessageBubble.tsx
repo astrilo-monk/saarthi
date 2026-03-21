@@ -41,48 +41,21 @@ export function MessageBubble({
       transition={{ duration: 0.3 }}
       className={`message-bubble flex ${isUser ? "justify-end" : "justify-start"} mb-4`}
     >
-      <div className={`max-w-xs lg:max-w-md ${isUser ? "items-end" : "items-start"} flex flex-col`}>
-        {/* Message Content */}
+      <div className={`max-w-2xl ${isUser ? "items-end" : "items-start"} flex flex-col`}>
+        {/* Message Content - Clean minimal style */}
         <div
-          className={`rounded-lg px-4 py-3 ${
+          className={`px-0 py-2 ${
             isUser
-              ? "bg-blue-100 text-blue-900 rounded-br-none"
+              ? "text-right"
               : isCrisis
-              ? "bg-red-50 text-red-900 border-2 border-red-300 rounded-bl-none"
-              : "text-gray-100 rounded-bl-none"
+              ? "text-left"
+              : "text-left"
           }`}
-          style={
-            !isUser && !isCrisis
-              ? {
-                  backgroundColor: accentColor + "20", // 20% opacity
-                  color: textColor,
-                  borderLeft: `4px solid ${accentColor}`,
-                }
-              : {}
-          }
         >
-          <p className="text-sm leading-relaxed">{message}</p>
+          <p className={`text-sm leading-relaxed ${isUser ? "text-gray-800" : "text-gray-700"}`}>
+            {message}
+          </p>
         </div>
-
-        {/* Metadata (timestamp, emotion) */}
-        <div className={`flex items-center gap-2 mt-1 text-xs ${isUser ? "justify-end" : "justify-start"}`}>
-          {!isUser && emotion && (
-            <span
-              className="px-2 py-0.5 rounded-full text-white"
-              style={{ backgroundColor: accentColor }}
-            >
-              {emotion}
-            </span>
-          )}
-          {timestamp && <span className="text-gray-400">{formatTime(timestamp)}</span>}
-        </div>
-
-        {/* Crisis Warning Badge */}
-        {isCrisis && (
-          <div className="mt-2 bg-red-100 border border-red-300 rounded px-2 py-1">
-            <p className="text-xs font-bold text-red-800">🚨 CRISIS SUPPORT</p>
-          </div>
-        )}
       </div>
     </motion.div>
   );
