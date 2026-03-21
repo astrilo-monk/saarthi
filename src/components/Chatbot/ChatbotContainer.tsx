@@ -321,12 +321,16 @@ export function ChatbotContainer({
     };
   }, [stopEmotionDetection]);
 
-  // Auto-scroll to bottom when messages arrive
+  // Auto-scroll to bottom when messages arrive - only scroll the container
   useEffect(() => {
-    const timer = setTimeout(() => {
-      messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-    }, 100);
-    return () => clearTimeout(timer);
+    if (messagesContainerRef.current && messagesEndRef.current) {
+      const container = messagesContainerRef.current;
+      const endElement = messagesEndRef.current;
+
+      // Scroll within the container only, not the page
+      const scrollTop = endElement.offsetTop - container.offsetTop;
+      container.scrollTo({ top: scrollTop, behavior: 'smooth' });
+    }
   }, [messages, isLoading]);
 
   // Notify parent when emotion changes
