@@ -67,6 +67,7 @@ export function ChatbotContainer({
   const theme = useEmotionTheme(currentEmotion);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+  const messagesContainerRef = useRef<HTMLDivElement>(null);
 
   // Camera and Mic state
   const [isCameraOn, setIsCameraOn] = useState(false);
@@ -314,12 +315,19 @@ export function ChatbotContainer({
     };
   }, [stopEmotionDetection]);
 
-  // Auto-scroll to bottom when new messages arrive
+  // Only scroll if user is at bottom of chat
   useEffect(() => {
-    const timer = setTimeout(() => {
+    if (!messagesContainerRef.current) return;
+
+    const container = messagesContainerRef.current;
+    // Check if user is at the bottom (within 50px)
+    const isAtBottom =
+      container.scrollHeight - container.scrollTop - container.clientHeight < 50;
+
+    // Only auto-scroll if already at bottom
+    if (isAtBottom) {
       messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-    }, 100);
-    return () => clearTimeout(timer);
+    }
   }, [messages]);
 
   // Notify parent when emotion changes
@@ -461,6 +469,7 @@ export function ChatbotContainer({
 
       {/* Messages Container */}
       <motion.div
+        ref={messagesContainerRef}
         className="chatbot-messages flex-1 overflow-y-auto p-6 space-y-4"
         layout
       >
