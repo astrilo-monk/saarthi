@@ -355,7 +355,7 @@ export function ChatbotContainer({
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
-      className="chatbot-container flex flex-col h-96 rounded-2xl overflow-hidden shadow-2xl"
+      className="chatbot-container flex flex-col h-screen rounded-2xl overflow-hidden shadow-2xl"
       style={{ backgroundColor: "#f0fdf4" }}
     >
       {/* Header with Avatar */}

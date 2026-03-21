@@ -2,8 +2,8 @@ import { ChatbotContainer } from '@/components/Chatbot';
 
 export default function ChatPage() {
   return (
-    <div className="w-full bg-white py-8 px-4">
-      <div className="max-w-2xl mx-auto min-h-96">
+    <div className="w-full h-screen bg-white">
+      <div className="h-full max-w-4xl mx-auto">
         <ChatbotContainer
           onEmotionChange={(emotion) => {
             console.log('Emotion detected:', emotion);

@@ -45,13 +45,13 @@ export function Avatar({ expression, animation, emotion }: AvatarProps) {
         {displayExpression}
       </div>
 
-      {/* Emotion Label (optional, can be hidden) */}
-      <div className="emotion-label text-xs font-medium" style={{ color: theme.textColor }}>
+      {/* Emotion Label - Hidden for cleaner UI */}
+      {/* <div className="emotion-label text-xs font-medium" style={{ color: theme.textColor }}>
         {emotion}
-      </div>
+      </div> */}
 
-      {/* Emotion Indicator Bar */}
-      <div className="emotion-indicator w-12 h-1 rounded-full" style={{ backgroundColor: theme.accentColor }}></div>
+      {/* Emotion Indicator Bar - Hidden for cleaner UI */}
+      {/* <div className="emotion-indicator w-12 h-1 rounded-full" style={{ backgroundColor: theme.accentColor }}></div> */}
 
       <style jsx>{`
         .emotion-avatar-emoji {
