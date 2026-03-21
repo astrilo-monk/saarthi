@@ -322,20 +322,13 @@ export function ChatbotContainer({
     };
   }, [stopEmotionDetection]);
 
-  // Only scroll if user is at bottom of chat
+  // Auto-scroll to bottom when messages arrive
   useEffect(() => {
-    if (!messagesContainerRef.current) return;
-
-    const container = messagesContainerRef.current;
-    // Check if user is at the bottom (within 50px)
-    const isAtBottom =
-      container.scrollHeight - container.scrollTop - container.clientHeight < 50;
-
-    // Only auto-scroll if already at bottom
-    if (isAtBottom) {
+    const timer = setTimeout(() => {
       messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-    }
-  }, [messages]);
+    }, 100);
+    return () => clearTimeout(timer);
+  }, [messages, isLoading]);
 
   // Notify parent when emotion changes
   useEffect(() => {
@@ -362,7 +355,7 @@ export function ChatbotContainer({
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
-      className="chatbot-container flex flex-col h-full w-full rounded-2xl overflow-hidden shadow-2xl"
+      className="chatbot-container flex flex-col h-96 rounded-2xl overflow-hidden shadow-2xl"
       style={{ backgroundColor: "#f0fdf4" }}
     >
       {/* Header with Avatar */}
@@ -393,7 +386,8 @@ export function ChatbotContainer({
       {/* Messages Container */}
       <motion.div
         ref={messagesContainerRef}
-        className="chatbot-messages flex-1 overflow-y-auto p-6 space-y-4 bg-gradient-to-b from-green-50 to-white"
+        className="chatbot-messages flex-1 overflow-y-auto p-6 space-y-4"
+        style={{ backgroundColor: "#fafff9" }}
         layout
       >
         {messages.length === 0 && !isLoading && (
@@ -520,7 +514,7 @@ export function ChatbotContainer({
         <InputBox
           onSubmit={handleSendMessage}
           isLoading={isLoading}
-          accentColor="#4ade80"
+          accentColor={theme.accentColor}
           placeholderText={isMicOn ? "Speak or type..." : "Share your thoughts..."}
           onCameraToggle={toggleCamera}
           onMicToggle={toggleMic}

@@ -39,23 +39,42 @@ export function MessageBubble({
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
-      className={`message-bubble flex ${isUser ? "justify-end" : "justify-start"} mb-4`}
+      className={`message-bubble flex ${isUser ? "justify-end" : "justify-start"} mb-6`}
     >
-      <div className={`max-w-2xl ${isUser ? "items-end" : "items-start"} flex flex-col`}>
-        {/* Message Content - Clean minimal style */}
+      <div className={`${isUser ? "items-end" : "items-start"} flex flex-col gap-2 max-w-md`}>
+        {/* Message Box */}
         <div
-          className={`px-0 py-2 ${
+          className={`rounded-lg px-4 py-3 ${
             isUser
-              ? "text-right"
+              ? "bg-green-100 text-gray-800"
               : isCrisis
-              ? "text-left"
-              : "text-left"
+              ? "bg-red-100 text-red-900"
+              : "bg-gray-100 text-gray-800"
           }`}
         >
-          <p className={`text-sm leading-relaxed ${isUser ? "text-gray-800" : "text-gray-700"}`}>
-            {message}
-          </p>
+          <p className="text-sm leading-relaxed">{message}</p>
         </div>
+
+        {/* Timestamp */}
+        {timestamp && (
+          <span className="text-xs text-gray-500 px-1">
+            {formatTime(timestamp)}
+          </span>
+        )}
+
+        {/* Emotion Label for AI responses */}
+        {!isUser && emotion && (
+          <span className="text-xs font-medium px-2 py-1 rounded-full bg-blue-100 text-blue-700 capitalize">
+            {emotion}
+          </span>
+        )}
+
+        {/* Crisis label */}
+        {isCrisis && (
+          <span className="text-xs font-bold px-2 py-1 rounded-full bg-red-200 text-red-800">
+            🚨 CRISIS SUPPORT
+          </span>
+        )}
       </div>
     </motion.div>
   );
