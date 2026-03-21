@@ -82,9 +82,9 @@ export function InputBox({
       className="input-box w-full flex flex-col gap-3"
     >
       {/* Input Container - Claude style clean UI */}
-      <div className="flex items-end gap-3 rounded-2xl border border-gray-200 p-4 bg-white shadow-sm hover:shadow-md transition-shadow">
+      <div className="flex items-end gap-2 rounded-full border border-gray-300 p-3 bg-white shadow-sm hover:shadow-md transition-shadow">
         {/* Left: Camera & Mic Buttons */}
-        <div className="flex gap-2">
+        <div className="flex gap-1">
           <motion.button
             type="button"
             onClick={onCameraToggle}
@@ -97,7 +97,7 @@ export function InputBox({
             }}
             title="Toggle camera"
           >
-            {isCameraOn ? <Camera className="w-5 h-5" /> : <CameraOff className="w-5 h-5" />}
+            {isCameraOn ? <Camera className="w-4 h-4" /> : <CameraOff className="w-4 h-4" />}
           </motion.button>
 
           <motion.button
@@ -112,7 +112,7 @@ export function InputBox({
             }}
             title="Toggle microphone"
           >
-            {isMicOn ? <Mic className="w-5 h-5" /> : <MicOff className="w-5 h-5" />}
+            {isMicOn ? <Mic className="w-4 h-4" /> : <MicOff className="w-4 h-4" />}
           </motion.button>
         </div>
 
@@ -127,7 +127,7 @@ export function InputBox({
           maxLength={maxChars}
           rows={1}
           className="flex-1 bg-transparent outline-none text-gray-800 placeholder-gray-400 resize-none text-sm"
-          style={{ minHeight: "40px", maxHeight: "120px" }}
+          style={{ minHeight: "36px", maxHeight: "120px" }}
         />
 
         {/* Right: Send Button */}
@@ -148,7 +148,7 @@ export function InputBox({
               ⟳
             </motion.div>
           ) : (
-            "→"
+            "↑"
           )}
         </motion.button>
       </div>

@@ -356,24 +356,25 @@ export function ChatbotContainer({
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
       className="chatbot-container flex flex-col h-screen rounded-2xl overflow-hidden shadow-2xl"
-      style={{ backgroundColor: "#f0fdf4" }}
+      style={{ backgroundColor: theme.backgroundColor }}
     >
       {/* Header with Avatar */}
       <motion.div
-        className="chatbot-header p-6 flex flex-col items-center gap-3 border-b border-gray-200"
+        className="chatbot-header p-4 flex flex-col items-center gap-2 border-b"
+        style={{ borderColor: theme.accentColor + "40" }}
       >
         <Avatar
           expression={messages.length === 0 ? "🙂" : messages[messages.length - 1].avatar.expression}
           animation={messages.length === 0 ? "steady" : messages[messages.length - 1].avatar.animation}
           emotion={currentEmotion}
         />
-        <h1 className="text-2xl font-bold text-gray-800">
+        <h1 className="text-xl font-semibold" style={{ color: theme.textColor }}>
           Saarthi
         </h1>
-        <p className="text-sm text-gray-600">
+        <p className="text-xs" style={{ color: theme.textColor + "99" }}>
           {isCrisis
-            ? "🚨 Crisis support available - please reach out"
-            : "Your mental health companion"}
+            ? "Crisis support available"
+            : "Mental health support"}
         </p>
       </motion.div>
 
@@ -387,7 +388,7 @@ export function ChatbotContainer({
       <motion.div
         ref={messagesContainerRef}
         className="chatbot-messages flex-1 overflow-y-auto p-6 space-y-4"
-        style={{ backgroundColor: "#fafff9" }}
+        style={{ backgroundColor: theme.backgroundColor }}
         layout
       >
         {messages.length === 0 && !isLoading && (
@@ -397,11 +398,11 @@ export function ChatbotContainer({
             className="flex items-center justify-center h-full text-center"
           >
             <div>
-              <p className="text-2xl font-semibold mb-3 text-gray-800">
-                Welcome to Saarthi
+              <p className="text-2xl font-semibold mb-3" style={{ color: theme.textColor }}>
+                How can I help?
               </p>
-              <p className="text-gray-600">
-                Share what's on your mind. I'm here to listen and support you with care and understanding.
+              <p style={{ color: theme.textColor + "99" }}>
+                Share what's on your mind. I'm here to listen and support you.
               </p>
             </div>
           </motion.div>
@@ -492,7 +493,13 @@ export function ChatbotContainer({
       </motion.div>
 
       {/* Footer - Input Box with Camera/Mic */}
-      <motion.div className="chatbot-footer p-6 border-t border-gray-200 bg-white">
+      <motion.div
+        className="chatbot-footer p-6 border-t"
+        style={{
+          borderColor: theme.accentColor + "40",
+          backgroundColor: theme.backgroundColor
+        }}
+      >
         {/* Listening indicator */}
         <AnimatePresence>
           {isListening && transcript && (
@@ -500,7 +507,8 @@ export function ChatbotContainer({
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 10 }}
-              className="mb-3 p-2 rounded text-sm bg-blue-50 text-blue-700"
+              className="mb-3 p-2 rounded text-sm"
+              style={{ backgroundColor: theme.accentColor + "20", color: theme.accentColor }}
             >
               <span className="font-medium">
                 Listening:
