@@ -1,9 +1,12 @@
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { MessageCircle, Users, Shield, Lock, Heart, ArrowRight, Phone } from 'lucide-react';
+import { MessageCircle, Users, Shield, Lock, Heart, ArrowRight, Phone, GraduationCap } from 'lucide-react';
 import { Image } from '@/components/ui/image';
+import { useAuth } from '@/hooks/useAuth';
 
 export default function HomePage() {
+  const { isAuthenticated, user } = useAuth();
+
   const features = [
     {
       icon: Users,
@@ -74,9 +77,9 @@ export default function HomePage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0, transition: { delay: 0.3, duration: 0.8 } }}
           >
-            A safe mental health space{' '}
+            Private mental health space{' '}
             <span className="bg-gradient-to-r from-primary via-sage-green to-dark-green bg-clip-text text-transparent">
-              for your campus
+              for your college
             </span>
           </motion.h1>
 
@@ -94,22 +97,45 @@ export default function HomePage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0, transition: { delay: 0.7, duration: 0.8 } }}
           >
-            <Link
-              to="/forum"
-              className="bg-primary text-primary-foreground px-8 py-4 rounded-xl font-paragraph font-medium hover:bg-primary/90 transition-all hover:scale-[1.03] shadow-lg hover:shadow-xl inline-flex items-center space-x-2 text-base"
-            >
-              <Users className="w-5 h-5" />
-              <span>Enter the Forum</span>
-              <ArrowRight className="w-4 h-4" />
-            </Link>
+            {isAuthenticated ? (
+              <>
+                <Link
+                  to="/forum"
+                  className="bg-primary text-primary-foreground px-8 py-4 rounded-xl font-paragraph font-medium hover:bg-primary/90 transition-all hover:scale-[1.03] shadow-lg hover:shadow-xl inline-flex items-center space-x-2 text-base"
+                >
+                  <Users className="w-5 h-5" />
+                  <span>{user?.role === 'COLLEGE_USER' ? `Enter ${user.collegeName} Forum` : 'Enter the Forum'}</span>
+                  <ArrowRight className="w-4 h-4" />
+                </Link>
 
-            <Link
-              to="/chat"
-              className="bg-white text-foreground border-2 border-gray-200 px-8 py-4 rounded-xl font-paragraph font-medium hover:border-primary/40 transition-all hover:scale-[1.03] shadow-sm hover:shadow-md inline-flex items-center space-x-2 text-base"
-            >
-              <MessageCircle className="w-5 h-5" />
-              <span>Chat with AI</span>
-            </Link>
+                <Link
+                  to="/chat"
+                  className="bg-white text-foreground border-2 border-gray-200 px-8 py-4 rounded-xl font-paragraph font-medium hover:border-primary/40 transition-all hover:scale-[1.03] shadow-sm hover:shadow-md inline-flex items-center space-x-2 text-base"
+                >
+                  <MessageCircle className="w-5 h-5" />
+                  <span>Chat with AI</span>
+                </Link>
+              </>
+            ) : (
+              <>
+                <Link
+                  to="/login"
+                  className="bg-primary text-primary-foreground px-8 py-4 rounded-xl font-paragraph font-medium hover:bg-primary/90 transition-all hover:scale-[1.03] shadow-lg hover:shadow-xl inline-flex items-center space-x-2 text-base"
+                >
+                  <GraduationCap className="w-5 h-5" />
+                  <span>Continue with college email</span>
+                  <ArrowRight className="w-4 h-4" />
+                </Link>
+
+                <Link
+                  to="/chat"
+                  className="bg-white text-foreground border-2 border-gray-200 px-8 py-4 rounded-xl font-paragraph font-medium hover:border-primary/40 transition-all hover:scale-[1.03] shadow-sm hover:shadow-md inline-flex items-center space-x-2 text-base"
+                >
+                  <MessageCircle className="w-5 h-5" />
+                  <span>Chat with AI</span>
+                </Link>
+              </>
+            )}
           </motion.div>
         </div>
       </motion.section>
@@ -242,13 +268,24 @@ export default function HomePage() {
           <p className="text-lg font-paragraph text-gray-600 mb-8">
             Join your campus community. Talk anonymously. Get support.
           </p>
-          <Link
-            to="/forum"
-            className="bg-primary text-primary-foreground px-8 py-4 rounded-xl font-paragraph font-medium hover:bg-primary/90 transition-all hover:scale-[1.03] shadow-lg hover:shadow-xl inline-flex items-center space-x-2 text-base"
-          >
-            <span>Enter the Forum</span>
-            <ArrowRight className="w-4 h-4" />
-          </Link>
+          {isAuthenticated ? (
+            <Link
+              to="/forum"
+              className="bg-primary text-primary-foreground px-8 py-4 rounded-xl font-paragraph font-medium hover:bg-primary/90 transition-all hover:scale-[1.03] shadow-lg hover:shadow-xl inline-flex items-center space-x-2 text-base"
+            >
+              <span>Enter the Forum</span>
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+          ) : (
+            <Link
+              to="/login"
+              className="bg-primary text-primary-foreground px-8 py-4 rounded-xl font-paragraph font-medium hover:bg-primary/90 transition-all hover:scale-[1.03] shadow-lg hover:shadow-xl inline-flex items-center space-x-2 text-base"
+            >
+              <GraduationCap className="w-5 h-5" />
+              <span>Continue with college email</span>
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+          )}
         </div>
       </section>
     </div>
