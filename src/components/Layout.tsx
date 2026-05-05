@@ -1,14 +1,18 @@
-import { useMember } from '@/integrations';
 import { Outlet, Link, useLocation } from 'react-router-dom';
-import { LoadingSpinner } from '@/components/ui/loading-spinner';
-import { Menu, X, MessageCircle, Users, Phone } from 'lucide-react';
-import { useState } from 'react';
+import { Menu, X, MessageCircle, Users, LogIn, LogOut } from 'lucide-react';
+import { useState, useEffect } from 'react';
 import { Image } from '@/components/ui/image';
+import { useAuth } from '@/hooks/useAuth';
 
 export default function Layout() {
-  const { member, isAuthenticated, isLoading, actions } = useMember();
+  const { user, isAuthenticated, isLoading, logout } = useAuth();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
+
+  // Restore session on mount
+  useEffect(() => {
+    useAuth.getState().restoreSession();
+  }, []);
 
   const navigation = [
     { name: 'Forum', href: '/forum', icon: Users },
@@ -61,25 +65,33 @@ export default function Layout() {
 
             {/* Auth Section */}
             <div className="hidden md:flex items-center space-x-4">
-              {isLoading && <LoadingSpinner />}
               {!isAuthenticated && (
-                <button
-                  onClick={actions.login}
-                  className="bg-primary text-primary-foreground px-4 py-2 rounded-lg font-paragraph text-sm hover:bg-primary/90 transition-colors"
+                <Link
+                  to="/login"
+                  className="bg-primary text-primary-foreground px-4 py-2 rounded-lg font-paragraph text-sm hover:bg-primary/90 transition-colors inline-flex items-center space-x-2"
                 >
-                  Sign In
-                </button>
+                  <LogIn className="w-4 h-4" />
+                  <span>Sign In</span>
+                </Link>
               )}
-              {isAuthenticated && (
+              {isAuthenticated && user && (
                 <div className="flex items-center space-x-4">
-                  <span className="text-foreground font-paragraph text-sm">
-                    {member?.profile?.nickname || 'Anonymous'}
-                  </span>
+                  <div className="flex items-center space-x-2">
+                    <span className="text-foreground font-paragraph text-sm font-medium">
+                      {user.anonymousName}
+                    </span>
+                    {user.role === 'COLLEGE_USER' && (
+                      <span className="bg-primary/10 text-primary px-2 py-0.5 rounded-full text-xs font-paragraph">
+                        {user.collegeName}
+                      </span>
+                    )}
+                  </div>
                   <button
-                    onClick={actions.logout}
-                    className="text-foreground hover:text-primary font-paragraph text-sm"
+                    onClick={logout}
+                    className="text-gray-500 hover:text-foreground font-paragraph text-sm inline-flex items-center space-x-1 transition-colors"
                   >
-                    Sign Out
+                    <LogOut className="w-4 h-4" />
+                    <span>Sign Out</span>
                   </button>
                 </div>
               )}
@@ -117,26 +129,34 @@ export default function Layout() {
                   );
                 })}
               </nav>
-              
+
               {/* Mobile Auth */}
               <div className="mt-4 pt-4 border-t border-gray-100">
-                {isLoading && <LoadingSpinner />}
                 {!isAuthenticated && (
-                  <button
-                    onClick={actions.login}
-                    className="w-full bg-primary text-primary-foreground px-4 py-2 rounded-lg font-paragraph text-sm hover:bg-primary/90 transition-colors"
+                  <Link
+                    to="/login"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="w-full bg-primary text-primary-foreground px-4 py-2 rounded-lg font-paragraph text-sm hover:bg-primary/90 transition-colors inline-flex items-center justify-center space-x-2"
                   >
-                    Sign In
-                  </button>
+                    <LogIn className="w-4 h-4" />
+                    <span>Sign In</span>
+                  </Link>
                 )}
-                {isAuthenticated && (
+                {isAuthenticated && user && (
                   <div className="space-y-2">
-                    <span className="block text-foreground font-paragraph text-sm px-3 py-2">
-                      {member?.profile?.nickname || 'Anonymous'}
-                    </span>
+                    <div className="flex items-center space-x-2 px-3 py-2">
+                      <span className="text-foreground font-paragraph text-sm font-medium">
+                        {user.anonymousName}
+                      </span>
+                      {user.role === 'COLLEGE_USER' && (
+                        <span className="bg-primary/10 text-primary px-2 py-0.5 rounded-full text-xs font-paragraph">
+                          {user.collegeName}
+                        </span>
+                      )}
+                    </div>
                     <button
-                      onClick={actions.logout}
-                      className="block w-full text-left text-foreground hover:text-primary font-paragraph text-sm px-3 py-2"
+                      onClick={() => { logout(); setIsMobileMenuOpen(false); }}
+                      className="block w-full text-left text-gray-500 hover:text-foreground font-paragraph text-sm px-3 py-2"
                     >
                       Sign Out
                     </button>
@@ -172,7 +192,7 @@ export default function Layout() {
                 Your well-being matters. Your identity stays protected.
               </p>
             </div>
-            
+
             <div>
               <h3 className="font-heading text-sm font-bold text-foreground mb-4">Emergency Helplines</h3>
               <div className="space-y-2">
@@ -186,7 +206,7 @@ export default function Layout() {
               </div>
             </div>
           </div>
-          
+
           <div className="border-t border-gray-100 mt-8 pt-8 text-center">
             <p className="font-paragraph text-sm text-gray-600">
               © 2025 Saarthi. All rights reserved. Your privacy and anonymity are guaranteed.

@@ -1,10 +1,11 @@
-import { MemberProvider } from '@/integrations';
-import { createBrowserRouter, RouterProvider, Navigate } from 'react-router-dom';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { ScrollToTop } from '@/lib/scroll-to-top';
 import Layout from '@/components/Layout';
 import HomePage from '@/components/pages/HomePage';
 import ChatPage from '@/components/pages/ChatPage';
 import ForumPage from '@/components/pages/ForumPage';
+import LoginPage from '@/components/pages/LoginPage';
+import { Navigate } from 'react-router-dom';
 
 const router = createBrowserRouter([
   {
@@ -14,6 +15,10 @@ const router = createBrowserRouter([
       {
         index: true,
         element: <HomePage />,
+      },
+      {
+        path: "login",
+        element: <LoginPage />,
       },
       {
         path: "chat",
@@ -34,9 +39,5 @@ const router = createBrowserRouter([
 });
 
 export default function AppRouter() {
-  return (
-    <MemberProvider>
-      <RouterProvider router={router} />
-    </MemberProvider>
-  );
+  return <RouterProvider router={router} />;
 }
