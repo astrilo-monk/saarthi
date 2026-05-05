@@ -40,10 +40,11 @@ export default function LoginPage() {
             <Shield className="w-8 h-8 text-white" />
           </div>
           <h1 className="text-3xl font-heading font-bold text-foreground mb-3">
-            Join Saarthi
+            Continue with your email
           </h1>
           <p className="font-paragraph text-gray-600">
-            Enter your email to continue. College emails get access to your campus forum.
+            Sign in with your college email to access your campus forum.
+            Public emails get global access.
           </p>
         </div>
 
