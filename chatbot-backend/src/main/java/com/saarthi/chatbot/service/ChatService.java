@@ -81,7 +81,7 @@ public class ChatService {
         log.debug("Emotion detected: {} (confidence: {})", emotionAnalysis.getEmotion(), emotionAnalysis.getConfidence());
 
         // STEP 3 - Get recent conversation context
-        String recentContext = conversationService.getRecentContext(sessionId, 4);
+        String recentContext = conversationService.getRecentContext(sessionId, 5);
 
         // STEP 4 - Build response strategy  (system prompt with guidelines)
         String systemPrompt = responseStrategy.getFinalSystemPrompt(

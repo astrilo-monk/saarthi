@@ -20,7 +20,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @Service
 public class ConversationService {
 
-    @Value("${chatbot.max-conversation-history:10}")
+    @Value("${chatbot.max-conversation-history:5}")
     private int maxHistorySize;
 
     @Value("${chatbot.session-timeout-minutes:30}")
