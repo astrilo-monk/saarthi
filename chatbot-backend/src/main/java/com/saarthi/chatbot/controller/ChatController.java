@@ -3,7 +3,7 @@ package com.saarthi.chatbot.controller;
 import com.saarthi.chatbot.model.ChatRequest;
 import com.saarthi.chatbot.model.ChatResponse;
 import com.saarthi.chatbot.service.ChatService;
-import com.saarthi.chatbot.llm.OpenAIClient;
+import com.saarthi.chatbot.llm.OllamaClient;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,20 +20,19 @@ import java.util.Map;
  *
  * Endpoints:
  * POST /chat/message - Send message and get response
- * GET /health - Health check
+ * GET /chat/health   - Health check
  */
 @Slf4j
 @RestController
 @RequestMapping("/chat")
-@CrossOrigin(origins = {"http://localhost:4321", "http://localhost:5173", "http://localhost:3000"})
 public class ChatController {
 
     private final ChatService chatService;
-    private final OpenAIClient openaiClient;
+    private final OllamaClient ollamaClient;
 
-    public ChatController(ChatService chatService, OpenAIClient openaiClient) {
+    public ChatController(ChatService chatService, OllamaClient ollamaClient) {
         this.chatService = chatService;
-        this.openaiClient = openaiClient;
+        this.ollamaClient = ollamaClient;
     }
 
     /**
@@ -85,7 +84,7 @@ public class ChatController {
         Map<String, Object> health = new HashMap<>();
         health.put("status", "healthy");
         health.put("service", "saarthi-chatbot");
-        health.put("llmConnected", openaiClient.isHealthy());
+        health.put("llmConnected", ollamaClient.isHealthy());
         health.put("timestamp", System.currentTimeMillis());
 
         return ResponseEntity.ok(health);
@@ -103,7 +102,7 @@ public class ChatController {
         info.put("version", "1.0.0");
         info.put("endpoints", new HashMap<String, String>() {{
             put("POST /chat/message", "Send message and get response");
-            put("GET /health", "Health check");
+            put("GET /chat/health", "Health check");
         }});
 
         return ResponseEntity.ok(info);

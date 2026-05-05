@@ -24,7 +24,6 @@ import java.util.Map;
 @Slf4j
 @RestController
 @RequestMapping("/forum")
-@CrossOrigin(origins = {"http://localhost:4321", "http://localhost:5173", "http://localhost:3000"})
 public class ForumController {
 
     private final ForumService forumService;
