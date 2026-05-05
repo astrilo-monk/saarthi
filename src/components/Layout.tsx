@@ -1,5 +1,5 @@
 import { Outlet, Link, useLocation } from 'react-router-dom';
-import { Menu, X, MessageCircle, Users, LogIn, LogOut } from 'lucide-react';
+import { Menu, X, MessageCircle, Users, LogIn, LogOut, Phone } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { Image } from '@/components/ui/image';
 import { useAuth } from '@/hooks/useAuth';
@@ -17,6 +17,7 @@ export default function Layout() {
   const navigation = [
     { name: 'Forum', href: '/forum', icon: Users },
     { name: 'Chat Support', href: '/chat', icon: MessageCircle },
+    { name: 'Help', href: '/#helplines', icon: Phone },
   ];
 
   const isActive = (path: string) => {
