@@ -47,16 +47,19 @@ public class CrisisDetectorService {
             Pattern.CASE_INSENSITIVE);
 
     /** Indian Helplines - CRITICAL INFORMATION */
-    private static final String AASRA_HELPLINE = "AASRA: +91-9820466726";
-    private static final String iCall_HELPLINE = "iCall: +91-9152987821";
-    private static final String VANDREVALA_HELPLINE = "Vandrevala Foundation: +91-9999 666 555";
+    private static final String AASRA_HELPLINE = "AASRA: +91-9820466726 (24/7)";
+    private static final String iCall_HELPLINE = "iCall: 022-25563291 (Mon-Sat, 8am-10pm)";
+    private static final String VANDREVALA_HELPLINE = "Vandrevala Foundation: 1860-2662-345 (24/7)";
 
-    private static final String CRISIS_RESPONSE = "I'm genuinely concerned about what you're sharing. " +
-            "Please reach out for immediate support from professionals who can truly help:\n\n" +
-            AASRA_HELPLINE + "\n" +
-            iCall_HELPLINE + "\n" +
-            VANDREVALA_HELPLINE + "\n\n" +
-            "You don't have to face this alone. These counselors are trained, compassionate, and available right now.";
+    private static final String CRISIS_RESPONSE =
+            "I hear you, and I want you to know that what you're feeling matters deeply. " +
+            "Right now, the most important thing is to talk to someone who is trained to help.\n\n" +
+            "📞 Please reach out now:\n\n" +
+            "• " + AASRA_HELPLINE + "\n" +
+            "• " + iCall_HELPLINE + "\n" +
+            "• " + VANDREVALA_HELPLINE + "\n\n" +
+            "These are free, confidential helplines with real people who care. " +
+            "You don't have to go through this alone — please make that call.";
 
     /**
      * Analyzes a message for crisis indicators.
