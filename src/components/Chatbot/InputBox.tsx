@@ -1,14 +1,14 @@
 /**
  * InputBox Component
  *
- * Input field for user messages with submit functionality.
- * Shows loading state while message is being processed.
- * Includes character limit feedback.
+ * Clean text input for chat messages.
+ * Enter to send, Shift+Enter for new line.
+ * Auto-resizing textarea with character limit.
  */
 
 import React, { useState, useRef, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Camera, CameraOff, Mic, MicOff } from "lucide-react";
+import { Send } from "lucide-react";
 
 interface InputBoxProps {
   onSubmit: (message: string) => void;
@@ -16,10 +16,6 @@ interface InputBoxProps {
   disabled?: boolean;
   accentColor?: string;
   placeholderText?: string;
-  onCameraToggle?: () => void;
-  onMicToggle?: () => void;
-  isCameraOn?: boolean;
-  isMicOn?: boolean;
 }
 
 export function InputBox({
@@ -28,20 +24,14 @@ export function InputBox({
   disabled = false,
   accentColor = "#5b9aa0",
   placeholderText = "Share what's on your mind...",
-  onCameraToggle,
-  onMicToggle,
-  isCameraOn = false,
-  isMicOn = false,
 }: InputBoxProps) {
   const [message, setMessage] = useState("");
-  const [charCount, setCharCount] = useState(0);
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const maxChars = 1000;
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const text = e.target.value.slice(0, maxChars);
     setMessage(text);
-    setCharCount(text.length);
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -49,7 +39,6 @@ export function InputBox({
     if (message.trim() && !isLoading) {
       onSubmit(message);
       setMessage("");
-      setCharCount(0);
       if (inputRef.current) {
         inputRef.current.focus();
       }
@@ -62,7 +51,6 @@ export function InputBox({
       e.preventDefault();
       handleSubmit(e as any);
     }
-    // Allow Shift+Enter for new line
   };
 
   // Auto-resize textarea
@@ -79,44 +67,10 @@ export function InputBox({
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
-      className="input-box w-full flex flex-col gap-3"
+      className="input-box w-full"
     >
-      {/* Input Container - Claude style clean UI */}
-      <div className="flex items-end gap-2 rounded-full border border-gray-300 p-3 bg-white shadow-sm hover:shadow-md transition-shadow">
-        {/* Left: Camera & Mic Buttons */}
-        <div className="flex gap-1">
-          <motion.button
-            type="button"
-            onClick={onCameraToggle}
-            whileHover={{ scale: 1.05 }}
-            whileActive={{ scale: 0.95 }}
-            className="p-2 rounded-lg transition-colors"
-            style={{
-              backgroundColor: isCameraOn ? accentColor : "#f0f0f0",
-              color: isCameraOn ? "white" : "#666",
-            }}
-            title="Toggle camera"
-          >
-            {isCameraOn ? <Camera className="w-4 h-4" /> : <CameraOff className="w-4 h-4" />}
-          </motion.button>
-
-          <motion.button
-            type="button"
-            onClick={onMicToggle}
-            whileHover={{ scale: 1.05 }}
-            whileActive={{ scale: 0.95 }}
-            className="p-2 rounded-lg transition-colors"
-            style={{
-              backgroundColor: isMicOn ? accentColor : "#f0f0f0",
-              color: isMicOn ? "white" : "#666",
-            }}
-            title="Toggle microphone"
-          >
-            {isMicOn ? <Mic className="w-4 h-4" /> : <MicOff className="w-4 h-4" />}
-          </motion.button>
-        </div>
-
-        {/* Center: Textarea */}
+      <div className="flex items-end gap-3 rounded-2xl border border-gray-200 p-3 bg-white shadow-sm hover:shadow-md transition-shadow">
+        {/* Textarea */}
         <textarea
           ref={inputRef}
           value={message}
@@ -126,17 +80,17 @@ export function InputBox({
           disabled={isLoading || disabled}
           maxLength={maxChars}
           rows={1}
-          className="flex-1 bg-transparent outline-none text-gray-800 placeholder-gray-400 resize-none text-sm"
+          className="flex-1 bg-transparent outline-none text-gray-800 placeholder-gray-400 resize-none text-sm px-1"
           style={{ minHeight: "36px", maxHeight: "120px" }}
         />
 
-        {/* Right: Send Button */}
+        {/* Send Button */}
         <motion.button
           type="submit"
           disabled={isLoading || disabled || !message.trim()}
           whileHover={{ scale: 1.05 }}
           whileActive={{ scale: 0.95 }}
-          className="flex-shrink-0 p-2 rounded-lg text-white transition-opacity disabled:opacity-50"
+          className="flex-shrink-0 p-2.5 rounded-xl text-white transition-opacity disabled:opacity-40"
           style={{ backgroundColor: accentColor }}
           aria-label="Send message"
         >
@@ -144,11 +98,12 @@ export function InputBox({
             <motion.div
               animate={{ rotate: 360 }}
               transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+              className="w-4 h-4"
             >
               ⟳
             </motion.div>
           ) : (
-            "↑"
+            <Send className="w-4 h-4" />
           )}
         </motion.button>
       </div>
