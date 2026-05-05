@@ -1,19 +1,27 @@
 /**
  * Entity types for Saarthi platform
- * Only active entities are exported
+ * Forum entities are now served by the Spring Boot backend.
+ * This file is kept for any future frontend-only type definitions.
  */
 
-/**
- * Collection ID: forumcategories
- * Interface for ForumCategories
- */
-export interface ForumCategories {
-  _id: string;
-  _createdDate?: Date;
-  _updatedDate?: Date;
-  categoryName?: string;
-  description?: string;
-  isActive?: boolean;
-  displayOrder?: number;
-  slug?: string;
+export interface ForumPost {
+  id: string;
+  title: string;
+  content: string;
+  category: string;
+  anonymousAuthor: string;
+  scope: 'CAMPUS' | 'GLOBAL';
+  collegeId: string | null;
+  collegeName: string | null;
+  createdAt: string;
+  commentCount: number;
+  comments: ForumComment[];
+}
+
+export interface ForumComment {
+  id: string;
+  postId: string;
+  content: string;
+  anonymousAuthor: string;
+  createdAt: string;
 }
