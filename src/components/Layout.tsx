@@ -1,27 +1,18 @@
 import { useMember } from '@/integrations';
 import { Outlet, Link, useLocation } from 'react-router-dom';
 import { LoadingSpinner } from '@/components/ui/loading-spinner';
-import { Menu, X, MessageCircle, Calendar, BookOpen, Users, BarChart3, Gamepad2 } from 'lucide-react';
+import { Menu, X, MessageCircle, Users, Phone } from 'lucide-react';
 import { useState } from 'react';
 import { Image } from '@/components/ui/image';
-import { useIsAdminOrCounselor } from '@/components/ui/admin-protected-route';
-import SearchBar from '@/components/SearchBar';
 
 export default function Layout() {
   const { member, isAuthenticated, isLoading, actions } = useMember();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
-  const isAdminOrCounselor = useIsAdminOrCounselor();
 
   const navigation = [
-    { name: 'Home', href: '/', icon: null },
-    { name: 'Chat Support', href: '/chat', icon: MessageCircle },
-    { name: 'Book Counselor', href: '/booking', icon: Calendar },
-    { name: 'Resources', href: '/resources', icon: BookOpen },
     { name: 'Forum', href: '/forum', icon: Users },
-    { name: 'Mindful Garden', href: '/plant-game', icon: Gamepad2 },
-    // Only show admin dashboard for admin/counselor users
-    ...(isAdminOrCounselor ? [{ name: 'Admin Dashboard', href: '/admin', icon: BarChart3 }] : []),
+    { name: 'Chat Support', href: '/chat', icon: MessageCircle },
   ];
 
   const isActive = (path: string) => {
@@ -68,9 +59,8 @@ export default function Layout() {
               })}
             </nav>
 
-            {/* Search and Auth Section */}
+            {/* Auth Section */}
             <div className="hidden md:flex items-center space-x-4">
-              <SearchBar />
               {isLoading && <LoadingSpinner />}
               {!isAuthenticated && (
                 <button
@@ -82,12 +72,9 @@ export default function Layout() {
               )}
               {isAuthenticated && (
                 <div className="flex items-center space-x-4">
-                  <Link
-                    to="/profile"
-                    className="text-foreground hover:text-primary font-paragraph text-sm"
-                  >
-                    {member?.profile?.nickname || 'Profile'}
-                  </Link>
+                  <span className="text-foreground font-paragraph text-sm">
+                    {member?.profile?.nickname || 'Anonymous'}
+                  </span>
                   <button
                     onClick={actions.logout}
                     className="text-foreground hover:text-primary font-paragraph text-sm"
@@ -144,13 +131,9 @@ export default function Layout() {
                 )}
                 {isAuthenticated && (
                   <div className="space-y-2">
-                    <Link
-                      to="/profile"
-                      onClick={() => setIsMobileMenuOpen(false)}
-                      className="block text-foreground hover:text-primary font-paragraph text-sm px-3 py-2"
-                    >
-                      {member?.profile?.nickname || 'Profile'}
-                    </Link>
+                    <span className="block text-foreground font-paragraph text-sm px-3 py-2">
+                      {member?.profile?.nickname || 'Anonymous'}
+                    </span>
                     <button
                       onClick={actions.logout}
                       className="block w-full text-left text-foreground hover:text-primary font-paragraph text-sm px-3 py-2"
@@ -173,7 +156,7 @@ export default function Layout() {
       {/* Footer */}
       <footer className="bg-white border-t border-gray-100 mt-20">
         <div className="max-w-[120rem] mx-auto px-8 py-12">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="col-span-1 md:col-span-2">
               <div className="flex items-center space-x-3 mb-4">
                 <Image
@@ -185,35 +168,28 @@ export default function Layout() {
                 <span className="font-heading text-xl font-bold text-foreground">Saarthi</span>
               </div>
               <p className="font-paragraph text-gray-600 max-w-md">
-                A digital sanctuary providing confidential mental health support for college students. 
-                Your well-being is our priority.
+                A private, anonymous mental health support system for college students.
+                Your well-being matters. Your identity stays protected.
               </p>
             </div>
             
             <div>
-              <h3 className="font-heading text-sm font-bold text-foreground mb-4">Support</h3>
-              <ul className="space-y-2">
-                <li><Link to="/chat" className="font-paragraph text-sm text-gray-600 hover:text-primary">Chat Support</Link></li>
-                <li><Link to="/booking" className="font-paragraph text-sm text-gray-600 hover:text-primary">Book Counselor</Link></li>
-                <li><Link to="/resources" className="font-paragraph text-sm text-gray-600 hover:text-primary">Resources</Link></li>
-                <li><Link to="/forum" className="font-paragraph text-sm text-gray-600 hover:text-primary">Peer Forum</Link></li>
-              </ul>
-            </div>
-            
-            <div>
-              <h3 className="font-heading text-sm font-bold text-foreground mb-4">Emergency</h3>
+              <h3 className="font-heading text-sm font-bold text-foreground mb-4">Emergency Helplines</h3>
               <div className="space-y-2">
-                <p className="font-paragraph text-sm text-gray-600">Crisis Helplines:</p>
-                <p className="font-paragraph text-sm font-bold text-destructive">022 2754 6669</p>
-                <p className="font-paragraph text-sm font-bold text-destructive">1800-599-0019</p>
-                <p className="font-paragraph text-sm text-gray-600">Available 24/7</p>
+                <p className="font-paragraph text-sm text-gray-600">iCall:</p>
+                <p className="font-paragraph text-sm font-bold text-destructive">022 2556 3291</p>
+                <p className="font-paragraph text-sm text-gray-600">Vandrevala Foundation:</p>
+                <p className="font-paragraph text-sm font-bold text-destructive">1860-2662-345</p>
+                <p className="font-paragraph text-sm text-gray-600">AASRA:</p>
+                <p className="font-paragraph text-sm font-bold text-destructive">9820466726</p>
+                <p className="font-paragraph text-xs text-gray-500 mt-2">Available 24/7</p>
               </div>
             </div>
           </div>
           
           <div className="border-t border-gray-100 mt-8 pt-8 text-center">
             <p className="font-paragraph text-sm text-gray-600">
-              © 2024 Saarthi. All rights reserved. Your privacy and confidentiality are protected.
+              © 2025 Saarthi. All rights reserved. Your privacy and anonymity are guaranteed.
             </p>
           </div>
         </div>
