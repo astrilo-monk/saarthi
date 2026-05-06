@@ -27,7 +27,7 @@ export default function LoginPage() {
   );
 
   return (
-    <div className="min-h-[calc(100vh-4rem)] flex items-center justify-center px-8 bg-gradient-to-br from-background via-mint-green/10 to-light-green/15">
+    <div className="min-h-[calc(100vh-4rem)] flex items-center justify-center px-8 bg-gradient-to-br from-background via-mint-green/10 to-light-green/15 dark:from-gray-950 dark:via-gray-900 dark:to-gray-950 transition-colors duration-300">
       <motion.div
         className="max-w-md w-full"
         initial={{ opacity: 0, y: 20 }}
@@ -39,24 +39,24 @@ export default function LoginPage() {
           <div className="w-16 h-16 bg-gradient-to-br from-primary to-sage-green rounded-2xl flex items-center justify-center mx-auto mb-5 shadow-md">
             <Shield className="w-8 h-8 text-white" />
           </div>
-          <h1 className="text-3xl font-heading font-bold text-foreground mb-3">
+          <h1 className="text-3xl font-heading font-bold text-foreground dark:text-gray-100 mb-3">
             Continue with your email
           </h1>
-          <p className="font-paragraph text-gray-600">
+          <p className="font-paragraph text-gray-600 dark:text-gray-400">
             Sign in with your college email to access your campus forum.
             Public emails get global access.
           </p>
         </div>
 
         {/* Login Form */}
-        <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-8">
+        <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-lg border border-gray-100 dark:border-gray-800 p-8">
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
-              <label className="block font-paragraph font-medium text-foreground mb-2 text-sm">
+              <label className="block font-paragraph font-medium text-foreground dark:text-gray-200 mb-2 text-sm">
                 Email address
               </label>
               <div className="relative">
-                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 dark:text-gray-500" />
                 <input
                   type="email"
                   value={email}
@@ -64,7 +64,7 @@ export default function LoginPage() {
                   placeholder="you@college.ac.in"
                   required
                   autoFocus
-                  className="w-full pl-11 pr-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent font-paragraph transition-all"
+                  className="w-full pl-11 pr-4 py-3 border border-gray-200 dark:border-gray-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent font-paragraph transition-all bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500"
                 />
               </div>
             </div>
@@ -76,8 +76,8 @@ export default function LoginPage() {
                 animate={{ opacity: 1, height: 'auto' }}
                 className={`p-3 rounded-xl text-sm font-paragraph ${
                   isCollegeEmail
-                    ? 'bg-green-50 border border-green-200 text-green-700'
-                    : 'bg-blue-50 border border-blue-200 text-blue-700'
+                    ? 'bg-green-50 dark:bg-green-950/30 border border-green-200 dark:border-green-900/50 text-green-700 dark:text-green-400'
+                    : 'bg-blue-50 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-900/50 text-blue-700 dark:text-blue-400'
                 }`}
               >
                 {isCollegeEmail ? (
@@ -99,7 +99,7 @@ export default function LoginPage() {
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                className="bg-red-50 border border-red-200 text-red-700 p-3 rounded-xl text-sm font-paragraph flex items-center space-x-2"
+                className="bg-red-50 dark:bg-red-950/30 border border-red-200 dark:border-red-900/50 text-red-700 dark:text-red-400 p-3 rounded-xl text-sm font-paragraph flex items-center space-x-2"
               >
                 <AlertCircle className="w-4 h-4 flex-shrink-0" />
                 <span>{error}</span>
@@ -123,8 +123,8 @@ export default function LoginPage() {
           </form>
 
           {/* Privacy note */}
-          <div className="mt-6 pt-6 border-t border-gray-100">
-            <p className="font-paragraph text-xs text-gray-500 text-center">
+          <div className="mt-6 pt-6 border-t border-gray-100 dark:border-gray-800">
+            <p className="font-paragraph text-xs text-gray-500 dark:text-gray-500 text-center">
               🔒 Your identity stays anonymous. We generate a random name for you.
               No personal data is shared in the forum.
             </p>

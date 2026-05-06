@@ -2,8 +2,8 @@ import { ChatbotContainer } from '@/components/Chatbot';
 
 export default function ChatPage() {
   return (
-    <div className="w-full min-h-screen bg-gradient-to-b from-background to-white">
-      <div className="max-w-4xl mx-auto p-4" style={{ height: 'calc(100vh - 80px)' }}>
+    <div className="w-full min-h-screen bg-gray-50 dark:bg-gray-950 transition-colors duration-300">
+      <div className="max-w-3xl mx-auto px-4 py-4" style={{ height: 'calc(100vh - 64px)' }}>
         <ChatbotContainer
           onEmotionChange={(emotion) => {
             console.log('Emotion detected:', emotion);

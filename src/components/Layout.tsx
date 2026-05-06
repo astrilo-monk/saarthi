@@ -1,11 +1,13 @@
 import { Outlet, Link, useLocation } from 'react-router-dom';
-import { Menu, X, MessageCircle, Users, LogIn, LogOut, Phone } from 'lucide-react';
+import { Menu, X, MessageCircle, Users, LogIn, LogOut, Phone, Moon, Sun } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { Image } from '@/components/ui/image';
 import { useAuth } from '@/hooks/useAuth';
+import { useTheme } from '@/hooks/useTheme';
 
 export default function Layout() {
   const { user, isAuthenticated, isLoading, logout } = useAuth();
+  const { isDark, toggleTheme } = useTheme();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
 
@@ -27,9 +29,9 @@ export default function Layout() {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background dark:bg-gray-950 transition-colors duration-300">
       {/* Header */}
-      <header className="bg-white shadow-sm border-b border-gray-100">
+      <header className="bg-white dark:bg-gray-900 shadow-sm border-b border-gray-100 dark:border-gray-800 transition-colors duration-300">
         <div className="max-w-[120rem] mx-auto px-8">
           <div className="flex justify-between items-center h-16">
             {/* Logo */}
@@ -40,7 +42,7 @@ export default function Layout() {
                 width={40}
                 className="w-10 h-8 object-contain"
               />
-              <span className="font-heading text-xl font-bold text-foreground">Saarthi</span>
+              <span className="font-heading text-xl font-bold text-foreground dark:text-gray-100">Saarthi</span>
             </Link>
 
             {/* Desktop Navigation */}
@@ -54,7 +56,7 @@ export default function Layout() {
                     className={`flex items-center space-x-2 px-3 py-2 rounded-lg transition-colors ${
                       isActive(item.href)
                         ? 'bg-primary text-primary-foreground'
-                        : 'text-foreground hover:bg-gray-50'
+                        : 'text-foreground dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800'
                     }`}
                   >
                     {Icon && <Icon className="w-4 h-4" />}
@@ -64,8 +66,22 @@ export default function Layout() {
               })}
             </nav>
 
-            {/* Auth Section */}
+            {/* Auth Section + Theme Toggle */}
             <div className="hidden md:flex items-center space-x-4">
+              {/* Theme Toggle */}
+              <button
+                onClick={toggleTheme}
+                className="p-2 rounded-xl bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition-all duration-300"
+                aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
+                id="theme-toggle"
+              >
+                {isDark ? (
+                  <Sun className="w-5 h-5 text-amber-400" />
+                ) : (
+                  <Moon className="w-5 h-5 text-slate-600" />
+                )}
+              </button>
+
               {!isAuthenticated && (
                 <Link
                   to="/login"
@@ -78,18 +94,18 @@ export default function Layout() {
               {isAuthenticated && user && (
                 <div className="flex items-center space-x-4">
                   <div className="flex items-center space-x-2">
-                    <span className="text-foreground font-paragraph text-sm font-medium">
+                    <span className="text-foreground dark:text-gray-200 font-paragraph text-sm font-medium">
                       {user.anonymousName}
                     </span>
                     {user.role === 'COLLEGE_USER' && (
-                      <span className="bg-primary/10 text-primary px-2 py-0.5 rounded-full text-xs font-paragraph">
+                      <span className="bg-primary/10 text-primary dark:text-green-400 px-2 py-0.5 rounded-full text-xs font-paragraph">
                         {user.collegeName}
                       </span>
                     )}
                   </div>
                   <button
                     onClick={logout}
-                    className="text-gray-500 hover:text-foreground font-paragraph text-sm inline-flex items-center space-x-1 transition-colors"
+                    className="text-gray-500 dark:text-gray-400 hover:text-foreground dark:hover:text-gray-200 font-paragraph text-sm inline-flex items-center space-x-1 transition-colors"
                   >
                     <LogOut className="w-4 h-4" />
                     <span>Sign Out</span>
@@ -98,18 +114,31 @@ export default function Layout() {
               )}
             </div>
 
-            {/* Mobile menu button */}
-            <button
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="md:hidden p-2 rounded-lg text-foreground hover:bg-gray-50"
-            >
-              {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-            </button>
+            {/* Mobile: theme toggle + menu button */}
+            <div className="md:hidden flex items-center space-x-2">
+              <button
+                onClick={toggleTheme}
+                className="p-2 rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 transition-colors"
+                aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
+              >
+                {isDark ? (
+                  <Sun className="w-5 h-5 text-amber-400" />
+                ) : (
+                  <Moon className="w-5 h-5 text-slate-600" />
+                )}
+              </button>
+              <button
+                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                className="p-2 rounded-lg text-foreground dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800"
+              >
+                {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+              </button>
+            </div>
           </div>
 
           {/* Mobile Navigation */}
           {isMobileMenuOpen && (
-            <div className="md:hidden py-4 border-t border-gray-100">
+            <div className="md:hidden py-4 border-t border-gray-100 dark:border-gray-800">
               <nav className="flex flex-col space-y-2">
                 {navigation.map((item) => {
                   const Icon = item.icon;
@@ -121,7 +150,7 @@ export default function Layout() {
                       className={`flex items-center space-x-2 px-3 py-2 rounded-lg transition-colors ${
                         isActive(item.href)
                           ? 'bg-primary text-primary-foreground'
-                          : 'text-foreground hover:bg-gray-50'
+                          : 'text-foreground dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800'
                       }`}
                     >
                       {Icon && <Icon className="w-4 h-4" />}
@@ -132,7 +161,7 @@ export default function Layout() {
               </nav>
 
               {/* Mobile Auth */}
-              <div className="mt-4 pt-4 border-t border-gray-100">
+              <div className="mt-4 pt-4 border-t border-gray-100 dark:border-gray-800">
                 {!isAuthenticated && (
                   <Link
                     to="/login"
@@ -146,18 +175,18 @@ export default function Layout() {
                 {isAuthenticated && user && (
                   <div className="space-y-2">
                     <div className="flex items-center space-x-2 px-3 py-2">
-                      <span className="text-foreground font-paragraph text-sm font-medium">
+                      <span className="text-foreground dark:text-gray-200 font-paragraph text-sm font-medium">
                         {user.anonymousName}
                       </span>
                       {user.role === 'COLLEGE_USER' && (
-                        <span className="bg-primary/10 text-primary px-2 py-0.5 rounded-full text-xs font-paragraph">
+                        <span className="bg-primary/10 text-primary dark:text-green-400 px-2 py-0.5 rounded-full text-xs font-paragraph">
                           {user.collegeName}
                         </span>
                       )}
                     </div>
                     <button
                       onClick={() => { logout(); setIsMobileMenuOpen(false); }}
-                      className="block w-full text-left text-gray-500 hover:text-foreground font-paragraph text-sm px-3 py-2"
+                      className="block w-full text-left text-gray-500 dark:text-gray-400 hover:text-foreground dark:hover:text-gray-200 font-paragraph text-sm px-3 py-2"
                     >
                       Sign Out
                     </button>
@@ -175,7 +204,7 @@ export default function Layout() {
       </main>
 
       {/* Footer */}
-      <footer className="bg-white border-t border-gray-100 mt-20">
+      <footer className="bg-white dark:bg-gray-900 border-t border-gray-100 dark:border-gray-800 mt-20 transition-colors duration-300">
         <div className="max-w-[120rem] mx-auto px-8 py-12">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="col-span-1 md:col-span-2">
@@ -186,30 +215,30 @@ export default function Layout() {
                   width={32}
                   className="w-8 h-6 object-contain"
                 />
-                <span className="font-heading text-xl font-bold text-foreground">Saarthi</span>
+                <span className="font-heading text-xl font-bold text-foreground dark:text-gray-100">Saarthi</span>
               </div>
-              <p className="font-paragraph text-gray-600 max-w-md">
+              <p className="font-paragraph text-gray-600 dark:text-gray-400 max-w-md">
                 A private, anonymous mental health support system for college students.
                 Your well-being matters. Your identity stays protected.
               </p>
             </div>
 
             <div>
-              <h3 className="font-heading text-sm font-bold text-foreground mb-4">Emergency Helplines</h3>
+              <h3 className="font-heading text-sm font-bold text-foreground dark:text-gray-100 mb-4">Emergency Helplines</h3>
               <div className="space-y-2">
-                <p className="font-paragraph text-sm text-gray-600">iCall:</p>
+                <p className="font-paragraph text-sm text-gray-600 dark:text-gray-400">iCall:</p>
                 <p className="font-paragraph text-sm font-bold text-destructive">022 2556 3291</p>
-                <p className="font-paragraph text-sm text-gray-600">Vandrevala Foundation:</p>
+                <p className="font-paragraph text-sm text-gray-600 dark:text-gray-400">Vandrevala Foundation:</p>
                 <p className="font-paragraph text-sm font-bold text-destructive">1860-2662-345</p>
-                <p className="font-paragraph text-sm text-gray-600">AASRA:</p>
+                <p className="font-paragraph text-sm text-gray-600 dark:text-gray-400">AASRA:</p>
                 <p className="font-paragraph text-sm font-bold text-destructive">9820466726</p>
-                <p className="font-paragraph text-xs text-gray-500 mt-2">Available 24/7</p>
+                <p className="font-paragraph text-xs text-gray-500 dark:text-gray-500 mt-2">Available 24/7</p>
               </div>
             </div>
           </div>
 
-          <div className="border-t border-gray-100 mt-8 pt-8 text-center">
-            <p className="font-paragraph text-sm text-gray-600">
+          <div className="border-t border-gray-100 dark:border-gray-800 mt-8 pt-8 text-center">
+            <p className="font-paragraph text-sm text-gray-600 dark:text-gray-400">
               © 2025 Saarthi. All rights reserved. Your privacy and anonymity are guaranteed.
             </p>
           </div>

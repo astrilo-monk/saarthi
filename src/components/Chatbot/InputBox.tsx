@@ -8,7 +8,7 @@
 
 import React, { useState, useRef, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Send } from "lucide-react";
+import { Send, Loader2 } from "lucide-react";
 
 interface InputBoxProps {
   onSubmit: (message: string) => void;
@@ -69,7 +69,7 @@ export function InputBox({
       transition={{ duration: 0.3 }}
       className="input-box w-full"
     >
-      <div className="flex items-end gap-3 rounded-2xl border border-gray-200 p-3 bg-white shadow-sm hover:shadow-md transition-shadow">
+      <div className="flex items-end gap-3 rounded-2xl border border-gray-200 dark:border-gray-700 p-3 bg-white dark:bg-gray-800 shadow-sm hover:shadow-md transition-shadow">
         {/* Textarea */}
         <textarea
           ref={inputRef}
@@ -80,7 +80,7 @@ export function InputBox({
           disabled={isLoading || disabled}
           maxLength={maxChars}
           rows={1}
-          className="flex-1 bg-transparent outline-none text-gray-800 placeholder-gray-400 resize-none text-sm px-1"
+          className="flex-1 bg-transparent outline-none text-gray-800 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500 resize-none text-sm px-1"
           style={{ minHeight: "36px", maxHeight: "120px" }}
         />
 
@@ -95,13 +95,7 @@ export function InputBox({
           aria-label="Send message"
         >
           {isLoading ? (
-            <motion.div
-              animate={{ rotate: 360 }}
-              transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-              className="w-4 h-4"
-            >
-              ⟳
-            </motion.div>
+            <Loader2 className="w-4 h-4 animate-spin" />
           ) : (
             <Send className="w-4 h-4" />
           )}

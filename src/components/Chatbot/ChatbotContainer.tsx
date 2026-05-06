@@ -1,15 +1,16 @@
 /**
  * ChatbotContainer Component
  *
- * Simplified chatbot interface focused on text-based mental health support.
- * - Clean message display with animation
- * - Emotion-aware theming
+ * Premium chatbot interface for mental health support.
+ * - Dark-mode native design with glassmorphism
+ * - Emotion-aware accent colors
+ * - Smooth animations and transitions
  * - Crisis detection/response
- * - Text input only (camera/mic removed for simplicity)
  */
 
 import React, { useEffect, useRef, useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { Sparkles, RotateCcw, Heart } from "lucide-react";
 import useChatbot from "@/hooks/useChatbot";
 import { useEmotionTheme } from "@/hooks/useEmotionTheme";
 import MessageBubble from "./MessageBubble";
@@ -26,11 +27,10 @@ export function ChatbotContainer({
   onEmotionChange,
   onCrisisDetected,
 }: ChatbotContainerProps) {
-  const { messages, isLoading, error, currentEmotion, isCrisis, sendMessage, clearError } =
+  const { messages, isLoading, error, currentEmotion, isCrisis, sendMessage, clearMessages, clearError } =
     useChatbot();
   const theme = useEmotionTheme(currentEmotion);
   const messagesEndRef = useRef<HTMLDivElement>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
   const messagesContainerRef = useRef<HTMLDivElement>(null);
   const [lastUserMessage, setLastUserMessage] = useState<string | null>(null);
 
@@ -78,51 +78,107 @@ export function ChatbotContainer({
 
   return (
     <motion.div
-      ref={containerRef}
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      className="chatbot-container flex flex-col rounded-2xl overflow-hidden shadow-2xl h-full"
-      style={{ backgroundColor: theme.backgroundColor }}
+      className="chatbot-container flex flex-col rounded-2xl overflow-hidden h-full
+        bg-white dark:bg-gray-900
+        border border-gray-200 dark:border-gray-800
+        shadow-xl dark:shadow-2xl dark:shadow-black/30
+        transition-colors duration-300"
     >
       {/* Header */}
-      <motion.div
-        className="chatbot-header p-4 flex flex-col items-center gap-2 border-b"
-        style={{ borderColor: theme.accentColor + "40" }}
-      >
-        <h1 className="text-xl font-semibold" style={{ color: theme.textColor }}>
-          Saarthi
-        </h1>
-        <p className="text-xs" style={{ color: theme.textColor + "99" }}>
-          {isCrisis
-            ? "Crisis support available — please reach out to a helpline"
-            : "Your private mental health companion"}
-        </p>
-      </motion.div>
+      <div className="chatbot-header px-6 py-4 flex items-center justify-between
+        border-b border-gray-100 dark:border-gray-800
+        bg-gray-50/80 dark:bg-gray-900/80
+        backdrop-blur-sm">
+        <div className="flex items-center gap-3">
+          {/* Logo Mark */}
+          <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-primary to-sage-green flex items-center justify-center shadow-md">
+            <Heart className="w-4.5 h-4.5 text-white" fill="white" />
+          </div>
+          <div>
+            <h1 className="text-base font-heading font-bold text-foreground dark:text-gray-100">
+              Saarthi
+            </h1>
+            <p className="text-xs font-paragraph text-gray-500 dark:text-gray-500">
+              {isCrisis
+                ? "Crisis support — please reach out to a helpline"
+                : "Your private mental health companion"}
+            </p>
+          </div>
+        </div>
+
+        {/* Actions */}
+        <div className="flex items-center gap-2">
+          {messages.length > 0 && (
+            <motion.button
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              onClick={clearMessages}
+              className="p-2 rounded-lg text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all"
+              title="New conversation"
+            >
+              <RotateCcw className="w-4 h-4" />
+            </motion.button>
+          )}
+        </div>
+      </div>
 
       {/* Messages Container */}
-      <motion.div
+      <div
         ref={messagesContainerRef}
-        className="chatbot-messages flex-1 overflow-y-auto p-6 space-y-4"
-        style={{ backgroundColor: theme.backgroundColor }}
-        layout
+        className="chatbot-messages flex-1 overflow-y-auto px-6 py-6 space-y-1
+          bg-gradient-to-b from-white via-white to-gray-50
+          dark:from-gray-950 dark:via-gray-950 dark:to-gray-900
+          transition-colors duration-300"
       >
         {messages.length === 0 && !isLoading && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="flex items-center justify-center h-full text-center"
+            transition={{ delay: 0.2 }}
+            className="flex items-center justify-center h-full"
           >
-            <div>
-              <p className="text-2xl font-semibold mb-3" style={{ color: theme.textColor }}>
+            <div className="text-center max-w-sm">
+              {/* Decorative Icon */}
+              <motion.div
+                animate={{ y: [0, -6, 0] }}
+                transition={{ repeat: Infinity, duration: 3, ease: "easeInOut" }}
+                className="w-16 h-16 rounded-2xl bg-gradient-to-br from-primary/10 to-sage-green/10 dark:from-primary/20 dark:to-sage-green/20 flex items-center justify-center mx-auto mb-6 border border-primary/10 dark:border-primary/20"
+              >
+                <Sparkles className="w-7 h-7 text-primary dark:text-green-400" />
+              </motion.div>
+
+              <h2 className="text-xl font-heading font-bold text-foreground dark:text-gray-100 mb-2">
                 How can I help?
-              </p>
-              <p style={{ color: theme.textColor + "99" }}>
+              </h2>
+              <p className="font-paragraph text-gray-500 dark:text-gray-400 text-sm leading-relaxed mb-2">
                 Share what's on your mind. I'm here to listen and support you.
               </p>
-              <p className="text-xs mt-4" style={{ color: theme.textColor + "66" }}>
+              <p className="text-xs font-paragraph text-gray-400 dark:text-gray-600">
                 Your conversation is private and anonymous.
               </p>
+
+              {/* Suggestion Chips */}
+              <div className="flex flex-wrap justify-center gap-2 mt-6">
+                {["I'm feeling stressed", "Can't sleep well", "Need someone to talk to"].map((suggestion) => (
+                  <button
+                    key={suggestion}
+                    onClick={() => handleSendMessage(suggestion)}
+                    className="px-3.5 py-2 text-xs font-paragraph rounded-xl
+                      bg-gray-100 dark:bg-gray-800
+                      text-gray-600 dark:text-gray-400
+                      border border-gray-200 dark:border-gray-700
+                      hover:border-primary/40 dark:hover:border-green-500/40
+                      hover:bg-primary/5 dark:hover:bg-green-500/5
+                      hover:text-primary dark:hover:text-green-400
+                      transition-all duration-200"
+                  >
+                    {suggestion}
+                  </button>
+                ))}
+              </div>
             </div>
           </motion.div>
         )}
@@ -145,7 +201,6 @@ export function ChatbotContainer({
                 isCrisis={msg.isCrisis}
                 timestamp={msg.timestamp}
                 accentColor={theme.accentColor}
-                textColor={theme.textColor}
               />
             </div>
           ))}
@@ -164,30 +219,18 @@ export function ChatbotContainer({
               message={lastUserMessage}
             />
             {/* Loading dots */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              className="flex gap-2 items-center"
-            >
-              <motion.div
-                animate={{ y: [0, -5, 0] }}
-                transition={{ repeat: Infinity, duration: 0.6, delay: 0 }}
-                className="w-2 h-2 rounded-full"
-                style={{ backgroundColor: theme.accentColor }}
-              />
-              <motion.div
-                animate={{ y: [0, -5, 0] }}
-                transition={{ repeat: Infinity, duration: 0.6, delay: 0.2 }}
-                className="w-2 h-2 rounded-full"
-                style={{ backgroundColor: theme.accentColor }}
-              />
-              <motion.div
-                animate={{ y: [0, -5, 0] }}
-                transition={{ repeat: Infinity, duration: 0.6, delay: 0.4 }}
-                className="w-2 h-2 rounded-full"
-                style={{ backgroundColor: theme.accentColor }}
-              />
-            </motion.div>
+            <div className="flex items-center gap-3 pl-1">
+              <div className="flex gap-1.5 items-center bg-gray-100 dark:bg-gray-800 px-4 py-3 rounded-2xl rounded-bl-sm">
+                {[0, 0.15, 0.3].map((delay, i) => (
+                  <motion.div
+                    key={i}
+                    animate={{ y: [0, -4, 0], opacity: [0.4, 1, 0.4] }}
+                    transition={{ repeat: Infinity, duration: 0.8, delay }}
+                    className="w-1.5 h-1.5 rounded-full bg-gray-400 dark:bg-gray-500"
+                  />
+                ))}
+              </div>
+            </div>
           </motion.div>
         )}
 
@@ -196,12 +239,12 @@ export function ChatbotContainer({
           <motion.div
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
-            className="bg-red-100 border-l-4 border-red-500 p-4 rounded"
+            className="bg-red-50 dark:bg-red-950/30 border border-red-200 dark:border-red-900/50 p-4 rounded-xl"
           >
-            <p className="text-red-700 text-sm">{error}</p>
+            <p className="text-red-700 dark:text-red-400 text-sm font-paragraph">{error}</p>
             <button
               onClick={clearError}
-              className="text-red-600 text-xs underline mt-2 hover:text-red-800"
+              className="text-red-600 dark:text-red-400 text-xs underline mt-2 hover:text-red-800 dark:hover:text-red-300 font-paragraph"
             >
               Dismiss
             </button>
@@ -209,23 +252,20 @@ export function ChatbotContainer({
         )}
 
         <div ref={messagesEndRef} />
-      </motion.div>
+      </div>
 
       {/* Footer - Input Box */}
-      <motion.div
-        className="chatbot-footer p-6 border-t"
-        style={{
-          borderColor: theme.accentColor + "40",
-          backgroundColor: theme.backgroundColor
-        }}
-      >
+      <div className="chatbot-footer px-6 py-4
+        border-t border-gray-100 dark:border-gray-800
+        bg-gray-50/80 dark:bg-gray-900/80
+        backdrop-blur-sm">
         <InputBox
           onSubmit={handleSendMessage}
           isLoading={isLoading}
           accentColor={theme.accentColor}
           placeholderText="Share your thoughts..."
         />
-      </motion.div>
+      </div>
     </motion.div>
   );
 }

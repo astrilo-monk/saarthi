@@ -38,3 +38,7 @@ coverage/
 .planning/
 .vercel/
 apache-maven-*/
+
+# Local notes (contain secrets)
+api grok
+start cmds

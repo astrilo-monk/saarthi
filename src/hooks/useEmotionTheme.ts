@@ -2,15 +2,15 @@
  * useEmotionTheme Hook
  *
  * Maps emotional states to UI theme (colors, animations, avatar expressions).
- * Provides a consistent interface for emotion-aware theming across the app.
+ * Provides both light and dark mode colors.
  */
 
 export interface EmotionTheme {
-  backgroundColor: string;
   accentColor: string;
-  textColor: string;
+  accentColorDark: string;
   avatarExpression: string;
   avatarAnimation: string;
+  label: string;
 }
 
 export interface EmotionThemes {
@@ -19,46 +19,44 @@ export interface EmotionThemes {
 
 const EMOTION_THEMES: EmotionThemes = {
   SAD: {
-    backgroundColor: "#e8f4f8",
     accentColor: "#5b9aa0",
-    textColor: "#2c3e50",
+    accentColorDark: "#6bbac2",
     avatarExpression: "😔",
-    avatarAnimation: "breathing"
+    avatarAnimation: "breathing",
+    label: "Sadness",
   },
   ANXIOUS: {
-    backgroundColor: "#f5e6f0",
     accentColor: "#a67ba7",
-    textColor: "#402840",
+    accentColorDark: "#c49bc5",
     avatarExpression: "😰",
-    avatarAnimation: "pulse"
+    avatarAnimation: "pulse",
+    label: "Anxiety",
   },
   HOPELESS: {
-    backgroundColor: "#faf0f0",
     accentColor: "#8b6b6b",
-    textColor: "#3d2a2a",
+    accentColorDark: "#b08e8e",
     avatarExpression: "😢",
-    avatarAnimation: "slow_breathing"
+    avatarAnimation: "slow_breathing",
+    label: "Reaching out",
   },
   NEUTRAL: {
-    backgroundColor: "#f9f9f9",
-    accentColor: "#7b9fa3",
-    textColor: "#333333",
+    accentColor: "#5b9aa0",
+    accentColorDark: "#6bbac2",
     avatarExpression: "🙂",
-    avatarAnimation: "steady"
+    avatarAnimation: "steady",
+    label: "Neutral",
   },
   CRITICAL: {
-    backgroundColor: "#fff3e0",
-    accentColor: "#ff6f3c",
-    textColor: "#5d4037",
+    accentColor: "#e05555",
+    accentColorDark: "#f06060",
     avatarExpression: "🤝",
-    avatarAnimation: "attentive"
-  }
+    avatarAnimation: "attentive",
+    label: "Crisis",
+  },
 };
 
 /**
  * Hook to get theme data for a specific emotion
- * @param emotion The emotional state (SAD, ANXIOUS, HOPELESS, NEUTRAL, CRITICAL)
- * @returns EmotionTheme object with colors and animations
  */
 export function useEmotionTheme(emotion: string): EmotionTheme {
   return EMOTION_THEMES[emotion] || EMOTION_THEMES.NEUTRAL;
@@ -66,7 +64,6 @@ export function useEmotionTheme(emotion: string): EmotionTheme {
 
 /**
  * Hook to get CSS animation keyframes for emotion animations
- * @returns CSS string with all animation definitions
  */
 export function getEmotionAnimationStyles(): string {
   return `

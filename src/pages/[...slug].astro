@@ -7,6 +7,17 @@ import "@/styles/global.css";
 <html lang="en" class="w-full h-full">
   <head>
     <Head />
+    <script is:inline>
+      // Prevent flash of wrong theme — runs before paint
+      (function() {
+        var theme = localStorage.getItem('saarthi-theme');
+        if (theme === 'light') {
+          document.documentElement.classList.remove('dark');
+        } else {
+          document.documentElement.classList.add('dark');
+        }
+      })();
+    </script>
   </head>
   <body class="w-full h-full">
     <div id="root" class="w-full h-full">
