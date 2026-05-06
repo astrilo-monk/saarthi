@@ -35,8 +35,9 @@ interface UseChatbotState {
   currentEmotion: string;
   isCrisis: boolean;
 }
+import { API } from "@/config/api";
 
-const API_URL = "http://localhost:8080/api/chat";
+const API_URL = API.CHAT;
 
 /**
  * Hook for chatbot functionality

@@ -3,8 +3,9 @@ import { Plus, MessageCircle, Clock, Send, ArrowLeft, Globe, Building2 } from 'l
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth, hasCollegeAccess } from '@/hooks/useAuth';
 import { Link } from 'react-router-dom';
+import { API } from '@/config/api';
 
-const API_BASE = 'http://localhost:8080/api/forum';
+const API_BASE = API.FORUM;
 
 interface ForumPost {
   id: string;

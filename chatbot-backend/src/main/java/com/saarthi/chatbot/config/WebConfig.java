@@ -1,6 +1,7 @@
 package com.saarthi.chatbot.config;
 
 import com.saarthi.chatbot.service.AuthService;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -15,14 +16,18 @@ public class WebConfig implements WebMvcConfigurer {
 
     private final AuthService authService;
 
+    @Value("${cors.allowed-origins}")
+    private String allowedOrigins;
+
     public WebConfig(AuthService authService) {
         this.authService = authService;
     }
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
+        String[] origins = allowedOrigins.split(",");
         registry.addMapping("/**")
-                .allowedOrigins("http://localhost:4321", "http://localhost:5173", "http://localhost:3000")
+                .allowedOrigins(origins)
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                 .allowedHeaders("*")
                 .maxAge(3600);

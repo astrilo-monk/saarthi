@@ -10,8 +10,9 @@
  */
 
 import { create } from 'zustand';
+import { API } from '@/config/api';
 
-const API_BASE = 'http://localhost:8080/api/auth';
+const API_BASE = API.AUTH;
 
 export type UserRole = 'COLLEGE_USER' | 'PUBLIC_USER';
 

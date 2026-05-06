@@ -1,0 +1,6 @@
+target/
+.mvn/
+*.jar
+*.log
+.env
+.env.local
