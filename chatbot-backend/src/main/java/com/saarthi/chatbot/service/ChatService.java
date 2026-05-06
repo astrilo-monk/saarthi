@@ -1,6 +1,6 @@
 package com.saarthi.chatbot.service;
 
-import com.saarthi.chatbot.llm.OllamaClient;
+import com.saarthi.chatbot.llm.GroqClient;
 import com.saarthi.chatbot.model.*;
 import com.saarthi.chatbot.safety.CrisisDetectorService;
 import com.saarthi.chatbot.safety.EmotionDetectorService;
@@ -31,18 +31,18 @@ public class ChatService {
     private final CrisisDetectorService crisisDetector;
     private final EmotionDetectorService emotionDetector;
     private final ResponseStrategyService responseStrategy;
-    private final OllamaClient ollamaClient;
+    private final GroqClient groqClient;
     private final ConversationService conversationService;
 
     public ChatService(CrisisDetectorService crisisDetector,
                        EmotionDetectorService emotionDetector,
                        ResponseStrategyService responseStrategy,
-                       OllamaClient ollamaClient,
+                       GroqClient groqClient,
                        ConversationService conversationService) {
         this.crisisDetector = crisisDetector;
         this.emotionDetector = emotionDetector;
         this.responseStrategy = responseStrategy;
-        this.ollamaClient = ollamaClient;
+        this.groqClient = groqClient;
         this.conversationService = conversationService;
     }
 
@@ -96,7 +96,7 @@ public class ChatService {
 
         // STEP 5 - Call LLM with safety guardrails
         log.debug("Calling LLM with system prompt for emotion: {}", emotionAnalysis.getEmotion());
-        String aiResponse = ollamaClient.generateResponse(systemPrompt, userMessage);
+        String aiResponse = groqClient.generateResponse(systemPrompt, userMessage);
 
         // Add AI response to history
         conversationService.addAssistantMessage(sessionId, aiResponse);

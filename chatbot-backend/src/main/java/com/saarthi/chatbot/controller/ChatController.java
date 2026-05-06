@@ -3,7 +3,7 @@ package com.saarthi.chatbot.controller;
 import com.saarthi.chatbot.model.ChatRequest;
 import com.saarthi.chatbot.model.ChatResponse;
 import com.saarthi.chatbot.service.ChatService;
-import com.saarthi.chatbot.llm.OllamaClient;
+import com.saarthi.chatbot.llm.GroqClient;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,11 +28,11 @@ import java.util.Map;
 public class ChatController {
 
     private final ChatService chatService;
-    private final OllamaClient ollamaClient;
+    private final GroqClient groqClient;
 
-    public ChatController(ChatService chatService, OllamaClient ollamaClient) {
+    public ChatController(ChatService chatService, GroqClient groqClient) {
         this.chatService = chatService;
-        this.ollamaClient = ollamaClient;
+        this.groqClient = groqClient;
     }
 
     /**
@@ -84,7 +84,7 @@ public class ChatController {
         Map<String, Object> health = new HashMap<>();
         health.put("status", "healthy");
         health.put("service", "saarthi-chatbot");
-        health.put("llmConnected", ollamaClient.isHealthy());
+        health.put("llmConnected", groqClient.isHealthy());
         health.put("timestamp", System.currentTimeMillis());
 
         return ResponseEntity.ok(health);

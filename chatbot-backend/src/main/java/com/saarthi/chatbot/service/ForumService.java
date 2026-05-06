@@ -136,32 +136,32 @@ public class ForumService {
      */
     private void seedPosts() {
         // Global posts
+        List<String[]> examComments = new ArrayList<>();
+        examComments.add(new String[]{"SereneRobin88", "I found that breaking study sessions into smaller chunks really helps. Try the Pomodoro technique — 25 minutes of focused study, then a 5-minute break."});
+        examComments.add(new String[]{"BraveDolphin45", "Deep breathing exercises before exams have been a game-changer for me. Even just 3 minutes of box breathing helps."});
         createSeedPost("Dealing with exam anxiety - any tips?",
                 "I have my finals coming up and I'm feeling really overwhelmed. The anxiety is making it hard to focus on studying. Has anyone found effective ways to manage exam stress?",
                 "anxiety", ForumPost.PostScope.GLOBAL, "CalmOwl217", null, null,
-                List.of(
-                    new String[]{"SereneRobin88", "I found that breaking study sessions into smaller chunks really helps. Try the Pomodoro technique — 25 minutes of focused study, then a 5-minute break."},
-                    new String[]{"BraveDolphin45", "Deep breathing exercises before exams have been a game-changer for me. Even just 3 minutes of box breathing helps."}
-                ));
+                examComments);
 
+        List<String[]> sleepComments = new ArrayList<>();
+        sleepComments.add(new String[]{"WisePenguin31", "I use a journal to write down all my thoughts before bed. It helps get them out of my head so I can relax."});
         createSeedPost("Trouble sleeping before important deadlines",
                 "Anyone else find it impossible to sleep when you have big assignments due? My mind just keeps racing with all the things I need to do.",
                 "anxiety", ForumPost.PostScope.GLOBAL, "QuietFox92", null, null,
-                List.of(
-                    new String[]{"WisePenguin31", "I use a journal to write down all my thoughts before bed. It helps get them out of my head so I can relax."}
-                ));
+                sleepComments);
 
+        List<String[]> groupComments = new ArrayList<>();
+        groupComments.add(new String[]{"KindButterfly73", "Start small — maybe suggest meeting in a quiet coffee shop instead of a busy library. Smaller, calmer environments help me feel more comfortable."});
         createSeedPost("Social anxiety in group projects",
                 "Group projects make me so anxious. I worry about speaking up and being judged. How do you handle working with classmates when you have social anxiety?",
                 "relationships", ForumPost.PostScope.GLOBAL, "GentleSparrow56", null, null,
-                List.of(
-                    new String[]{"KindButterfly73", "Start small — maybe suggest meeting in a quiet coffee shop instead of a busy library. Smaller, calmer environments help me feel more comfortable."}
-                ));
+                groupComments);
 
         createSeedPost("Feeling lonely even when surrounded by people",
                 "I'm always around classmates and friends but still feel so disconnected. Does anyone else experience this? How do you cope?",
                 "loneliness", ForumPost.PostScope.GLOBAL, "HopefulDeer88", null, null,
-                List.of());
+                new ArrayList<>());
 
         log.info("Seeded {} forum posts", posts.size());
     }
